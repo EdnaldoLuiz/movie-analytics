@@ -1,0 +1,16 @@
+<div class="sidebar__container">
+  <nav class="sidebar__nav">
+    <div class="sidebar__nav__container">
+      <a class="nav_link" aria-current="page" [routerLink]="['/employees']" [class.active]="activeLink === 'employees'"
+        (click)="setActiveLink('employees')">
+        <img src="/assets/icons/route/chart.svg" class="icon" alt="">
+        <span class="nav_name">Dashboard</span>
+      </a>
+      <a class="nav_link" [routerLink]="['/chatbot']" [class.active]="activeLink === 'chatbot'"
+        (click)="setActiveLink('chatbot')">
+        <img src="/assets/icons/route/setting.svg" class="icon" alt="">
+        <span class="nav_name">Configurações</span>
+      </a>
+    </div>
+  </nav>
+</div>

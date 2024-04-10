@@ -1,7 +1,9 @@
 package com.ednaldoluiz.moviedash.service;
 
+import java.util.List;
+
 public interface TMDBService {
 
-    void fetchTmdbData(int totalPages);
+    void fetchTmdbData(Integer totalPages,  List<Long> genreId);
     
 }

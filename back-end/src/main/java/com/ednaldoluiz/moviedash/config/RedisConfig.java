@@ -15,13 +15,12 @@ import com.ednaldoluiz.moviedash.constant.CacheConstants;
 import static com.ednaldoluiz.moviedash.constant.CacheConstants.*;
 
 @Configuration
-@EnableCaching
+//@EnableCaching
 public class RedisConfig {
 
     @Bean
     public RedisCacheConfiguration cacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()
-                .disableCachingNullValues()
                 .serializeValuesWith(SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
                 .entryTtl(Duration.ofMinutes(CacheConstants.DEFAULT_TTL))
                 .computePrefixWith(cacheName -> cacheName + "::") 

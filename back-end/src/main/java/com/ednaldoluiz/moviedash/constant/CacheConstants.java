@@ -9,7 +9,7 @@ public class CacheConstants {
 
     public static final String MOVIE = "movie";
 
-    public static final String MOVIE_CACHE = MOVIE+SEPARATOR+CACHE;
+    public static final String MOVIE_CACHE = MOVIE+SEPARATOR+CACHE+SEPARATOR;
 
     public static final Integer MOVIE_TTL = 10;
     

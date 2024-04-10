@@ -10,28 +10,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ednaldoluiz.moviedash.model.Movie;
+import com.ednaldoluiz.moviedash.docs.MovieDocs;
+import com.ednaldoluiz.moviedash.docs.TMDBDocs;
+import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
+import com.ednaldoluiz.moviedash.repository.projection.MovieProjection;
 import com.ednaldoluiz.moviedash.service.MovieService;
-import static com.ednaldoluiz.moviedash.utils.ResponseUtil.*;
 
-import static com.ednaldoluiz.moviedash.constant.APIConstants.API_V1;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import static com.ednaldoluiz.moviedash.utils.ResponseUtil.*;
+import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
+
+@Slf4j
 @RestController
-@RequestMapping(API_V1 + "movies")
+@RequestMapping(API_V1 + MOVIES)
 @RequiredArgsConstructor
+@Tag(name = "Controller de Buscar Filmes", description = TMDBDocs.DESCRIPTION)
 public class MovieController {
 
     private final MovieService service;
 
-    @GetMapping
-    public ResponseEntity<Page<Movie>> allMovies(
-        @RequestParam(defaultValue = PAGE_NUMBER) int page, 
-        @RequestParam(defaultValue = PAGE_SIZE) int size) {
-            
-        Pageable pageable = PageRequest.of(page, size, Sort.by("ano").descending());
+    @GetMapping(ALL)
+    @Operation(summary = "Buscar todos os Filmes com Paginação", description = MovieDocs.ALL)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Paginação de filmes retornada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado"),
+    })
+    public ResponseEntity<Page<MovieResponseDTO>> allMovies(
+            @Parameter(description = "Número da Página") @RequestParam(defaultValue = PAGE_NUMBER) int page,
+            @Parameter(description = "Tamanho da Página") @RequestParam(defaultValue = PAGE_SIZE) int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("releaseDate").descending());
+        log.info("Sorted as: {}.", pageable.getSort());
         return ResponseEntity.ok(service.findAllMovies(pageable));
     }
-    
+
+    @GetMapping("/top10")
+    public ResponseEntity<Page<MovieProjection>> top10Movies(
+            @RequestParam(defaultValue = PAGE_SIZE) int size,
+            @RequestParam(defaultValue = "0") List<Long> genreIds) {
+
+        Pageable pageable = PageRequest.of(0, size, Sort.by("voteAverage").descending());
+        return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
+    }
 }

@@ -1,4 +1,4 @@
-package com.ednaldoluiz.moviedash.dto;
+package com.ednaldoluiz.moviedash.dto.request;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record MovieResponseDTO (
+public record MovieRequestDTO (
 
     Long id,
     Boolean adult,

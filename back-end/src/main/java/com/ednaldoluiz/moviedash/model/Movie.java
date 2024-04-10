@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.ednaldoluiz.moviedash.dto.MovieResponseDTO;
+import com.ednaldoluiz.moviedash.dto.request.MovieRequestDTO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +25,6 @@ import lombok.experimental.Accessors;
 
 @Getter
 @Setter
-@Accessors(chain = true, fluent = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -54,9 +54,10 @@ public class Movie implements Serializable {
         joinColumns = @JoinColumn(name = "movie_id"),
         inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
+    @JsonManagedReference
     private List<Genre> genres;
 
-    public Movie(MovieResponseDTO result) {
+    public Movie(MovieRequestDTO result) {
         this.adult = result.adult();
         this.popularity = result.popularity();
         this.title = result.title();

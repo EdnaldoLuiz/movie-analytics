@@ -17,6 +17,8 @@ public interface MovieService {
 
     Page<MovieProjection> findTop10Movies(Pageable pageable, List<Long> genreIds);
 
+    Page<Movie> findMoviesByTitle(String keyword, Pageable pageable);
+
     Specification<Movie> queryBuilder(
         String fieldName, Double value, boolean greaterThan, LocalDate startDate, LocalDate endDate, String language);
 }

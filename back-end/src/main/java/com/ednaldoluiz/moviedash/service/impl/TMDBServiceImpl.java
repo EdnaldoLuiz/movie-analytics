@@ -50,7 +50,7 @@ public class TMDBServiceImpl implements TMDBService {
         }
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     private void processResults(List<MovieRequestDTO> results) {
         results.forEach(this::processMovie);
     }

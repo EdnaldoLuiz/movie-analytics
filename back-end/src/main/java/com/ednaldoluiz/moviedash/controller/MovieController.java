@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ednaldoluiz.moviedash.docs.MovieDocs;
-import com.ednaldoluiz.moviedash.docs.TMDBDocs;
 import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
+import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.repository.projection.MovieProjection;
 import com.ednaldoluiz.moviedash.service.MovieService;
 
@@ -34,7 +34,7 @@ import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
 @RestController
 @RequestMapping(API_V1 + MOVIES)
 @RequiredArgsConstructor
-@Tag(name = "Controller de Buscar Filmes", description = TMDBDocs.DESCRIPTION)
+@Tag(name = "Controller de Buscar Filmes", description = MovieDocs.DESCRIPTION)
 public class MovieController {
 
     private final MovieService service;
@@ -56,10 +56,25 @@ public class MovieController {
 
     @GetMapping("/top10")
     public ResponseEntity<Page<MovieProjection>> top10Movies(
-            @RequestParam(defaultValue = PAGE_SIZE) int size,
-            @RequestParam(defaultValue = "0") List<Long> genreIds) {
+            @Parameter(description = "Tamanho da Página") @RequestParam(defaultValue = PAGE_SIZE) int size,
+            @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds) {
 
         Pageable pageable = PageRequest.of(0, size, Sort.by("voteAverage").descending());
         return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Buscar todos os Filmes com Paginação", description = MovieDocs.SEARCH)
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Filmes encontrados com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado"),
+    })
+    public ResponseEntity<Page<Movie>> searchMovies(
+            @Parameter(description = "Titulo do Filme para a Pesquisa") @RequestParam String title,
+            @Parameter(description = "Número da Página") @RequestParam(defaultValue = PAGE_NUMBER) int page,
+            @Parameter(description = "Tamanho da Página") @RequestParam(defaultValue = PAGE_SIZE) int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("title"));
+        return ResponseEntity.ok(service.findMoviesByTitle(title, pageRequest));
     }
 }

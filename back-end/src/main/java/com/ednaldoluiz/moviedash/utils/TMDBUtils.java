@@ -5,10 +5,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@UtilityClass
-public class TMDBUtil {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class TMDBUtils {
 
     public static final String API_KEY = "api_key";
     public static final String KEY = "e4f6fca45b95d5b6b44904d806c9fe0d";

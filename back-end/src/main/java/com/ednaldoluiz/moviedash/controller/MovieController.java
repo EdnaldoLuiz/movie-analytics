@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ednaldoluiz.moviedash.docs.MovieDocs;
 import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
 import com.ednaldoluiz.moviedash.model.Movie;
-import com.ednaldoluiz.moviedash.repository.projection.MovieProjection;
 import com.ednaldoluiz.moviedash.service.MovieService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,16 +20,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-import static com.ednaldoluiz.moviedash.utils.ResponseUtil.*;
+import static com.ednaldoluiz.moviedash.utils.AppUtils.*;
 import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
 
-@Slf4j
 @RestController
 @RequestMapping(API_V1 + MOVIES)
 @RequiredArgsConstructor
@@ -42,39 +40,56 @@ public class MovieController {
     @GetMapping(ALL)
     @Operation(summary = "Buscar todos os Filmes com Paginação", description = MovieDocs.ALL)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Paginação de filmes retornada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado"),
+            @ApiResponse(responseCode = "200", description = "Lista de filmes paginada retornada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado na página solicitada"),
     })
     public ResponseEntity<Page<MovieResponseDTO>> allMovies(
-            @Parameter(description = "Número da Página") @RequestParam(defaultValue = PAGE_NUMBER) int page,
-            @Parameter(description = "Tamanho da Página") @RequestParam(defaultValue = PAGE_SIZE) int size) {
+            @Parameter(description = "Número da Página") @Min(1) @RequestParam(defaultValue = PAGE_NUMBER) int page,
+            @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("releaseDate").descending());
-        log.info("Sorted as: {}.", pageable.getSort());
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(SORT).descending());
         return ResponseEntity.ok(service.findAllMovies(pageable));
     }
 
     @GetMapping("/top10")
-    public ResponseEntity<Page<MovieProjection>> top10Movies(
-            @Parameter(description = "Tamanho da Página") @RequestParam(defaultValue = PAGE_SIZE) int size,
+    @Operation(summary = "Buscar uma Página com o Top 10 de Filmes", description = MovieDocs.TOP_10)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Top 10 filmes retornados com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado para os gêneros solicitados"),
+    })
+    public ResponseEntity<Page<MovieResponseDTO>> top10Movies(
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds) {
 
-        Pageable pageable = PageRequest.of(0, size, Sort.by("voteAverage").descending());
+        Pageable pageable = PageRequest.of(0, 10, Sort.by(SORT).descending());
+        return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
+    }
+
+    @GetMapping("/top5")
+    @Operation(summary = "Buscar uma Página com o Top 5 Filmes por Ano", description = MovieDocs.TOP_5)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Top 5 filmes retornados com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado para os gêneros e ano solicitado"),
+    })
+    public ResponseEntity<Page<MovieResponseDTO>> top5MoviesPerYear(
+            @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds,
+            @Parameter(description = "Ano de Lançamento") @RequestParam Integer year) {
+
+        Pageable pageable = PageRequest.of(0, 5, Sort.by(SORT).descending());
         return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
     }
 
     @GetMapping("/search")
     @Operation(summary = "Buscar todos os Filmes com Paginação", description = MovieDocs.SEARCH)
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Filmes encontrados com sucesso"),
-        @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado"),
+            @ApiResponse(responseCode = "200", description = "Filmes com o título solicitado encontrados com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado com o título solicitado"),
     })
     public ResponseEntity<Page<Movie>> searchMovies(
             @Parameter(description = "Titulo do Filme para a Pesquisa") @RequestParam String title,
-            @Parameter(description = "Número da Página") @RequestParam(defaultValue = PAGE_NUMBER) int page,
-            @Parameter(description = "Tamanho da Página") @RequestParam(defaultValue = PAGE_SIZE) int size) {
+            @Parameter(description = "Número da Página") @Min(1) @RequestParam(defaultValue = PAGE_NUMBER) int page,
+            @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size) {
 
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("title"));
+        PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by("title"));
         return ResponseEntity.ok(service.findMoviesByTitle(title, pageRequest));
     }
 }

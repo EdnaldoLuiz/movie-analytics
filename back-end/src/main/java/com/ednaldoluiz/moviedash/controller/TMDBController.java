@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import static com.ednaldoluiz.moviedash.constant.APIConstants.API_V1;
-import static com.ednaldoluiz.moviedash.utils.ResponseUtil.PAGE_NUMBER;
+import static com.ednaldoluiz.moviedash.utils.AppUtils.PAGE_NUMBER;
 
 import java.util.List;
 

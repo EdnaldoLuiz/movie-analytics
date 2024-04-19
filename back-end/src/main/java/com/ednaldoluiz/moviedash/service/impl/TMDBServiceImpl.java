@@ -13,12 +13,13 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ednaldoluiz.moviedash.dto.request.MoviePageDTO;
 import com.ednaldoluiz.moviedash.dto.request.MovieRequestDTO;
+import com.ednaldoluiz.moviedash.exception.MovieProcessingException;
 import com.ednaldoluiz.moviedash.model.Genre;
 import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.repository.GenreRepository;
 import com.ednaldoluiz.moviedash.repository.MovieRepository;
 import com.ednaldoluiz.moviedash.service.TMDBService;
-import com.ednaldoluiz.moviedash.utils.TMDBUtil;
+import com.ednaldoluiz.moviedash.utils.TMDBUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class TMDBServiceImpl implements TMDBService {
     public void fetchTmdbData(Integer totalPages, List<Long> genres) {
         log.info("Gêneros: {}", genres);
         for (int currentPage = 1; currentPage <= totalPages; currentPage++) {
-            String url = TMDBUtil.buildUrl(currentPage, genres);
+            String url = TMDBUtils.buildUrl(currentPage, genres);
             log.info("URL: {}", url);
 
             try {
@@ -50,7 +51,7 @@ public class TMDBServiceImpl implements TMDBService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = MovieProcessingException.class)
     private void processResults(List<MovieRequestDTO> results) {
         results.forEach(this::processMovie);
     }

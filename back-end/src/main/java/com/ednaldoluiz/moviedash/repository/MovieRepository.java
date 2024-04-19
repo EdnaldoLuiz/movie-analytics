@@ -18,30 +18,29 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecific
 
     Optional<Movie> findByTitle(String title);
 
-    @Query(""" 
-        SELECT m.title as title, m.voteAverage as voteAverage, m.releaseDate as releaseDate
-        FROM Movie m 
-        INNER JOIN m.genres g
-        WHERE g.id IN :genreIds
-        ORDER BY m.voteAverage DESC
-    """)
+    @Query("""
+                SELECT m.title as title, m.voteAverage as voteAverage, m.releaseDate as releaseDate
+                FROM Movie m
+                INNER JOIN m.genres g
+                WHERE g.id IN :genreIds
+                ORDER BY m.voteAverage DESC
+            """)
     Page<MovieProjection> findTop10ByGenreAndVoteAverage(Pageable pageable, List<Long> genreIds);
 
     @Query("""
-        SELECT m 
-        FROM Movie m 
-        WHERE m.title LIKE %:keyword% 
-        ORDER BY m.voteAverage DESC
-    """)
+                SELECT m
+                FROM Movie m
+                WHERE m.title LIKE %:keyword%
+                ORDER BY m.voteAverage DESC
+            """)
     Page<Movie> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
-}
 
-    // @Query("""
-    //     SELECT 
-    //         m.title, m.voteAverage, m.releaseDate 
-    //     FROM 
-    //         Movie m 
-    //     WHERE 
-    //         YEAR(m.release_date) = :year 
-    //     ORDER BY m.vote_average DESC LIMIT 5""")
-    // List<Movie> findTop5ByReleaseYear(Integer year);
+    @Query("""
+                SELECT m.title as title, m.voteAverage as voteAverage, m.releaseDate as releaseDate
+                FROM Movie m
+                INNER JOIN m.genres g
+                WHERE g.id IN :genreIds AND YEAR(m.releaseDate) = :year
+                ORDER BY m.voteAverage DESC
+            """)
+    Page<MovieProjection> findTop5ByGenreAndVoteAverageInYear(Pageable pageable, List<Long> genreIds, Integer year);
+}

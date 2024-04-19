@@ -9,13 +9,14 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
 import com.ednaldoluiz.moviedash.model.Movie;
-import com.ednaldoluiz.moviedash.repository.projection.MovieProjection;
 
 public interface MovieService {
     
     Page<MovieResponseDTO> findAllMovies(Pageable pageable);
 
-    Page<MovieProjection> findTop10Movies(Pageable pageable, List<Long> genreIds);
+    Page<MovieResponseDTO> findTop10Movies(Pageable pageable, List<Long> genreIds);
+
+    Page<MovieResponseDTO> findTop10MoviesByYear(Pageable pageable, List<Long> genreIds, Integer year);
 
     Page<Movie> findMoviesByTitle(String keyword, Pageable pageable);
 

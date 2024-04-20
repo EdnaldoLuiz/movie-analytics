@@ -21,15 +21,18 @@ import java.time.Duration;
 public class RedisConfig {
 
     /**
-     * <h3>Constrói um gerenciador de cache Redis.</h3>
-     * <ul>
-     *  <li>O gerenciador de cache é configurado com uma conexão de fábrica Redis e um personalizador de construtor de gerenciador de cache Redis.</li>
-     *  <li>O personalizador é usado para personalizar a configuração do gerenciador de cache.</li>
-     * </ul>
+     * Este método cria um gerenciador de cache Redis personalizado.
+     * Primeiro, ele cria um construtor de gerenciador de cache Redis usando a
+     * fábrica de conexões Redis fornecida.
+     * Em seguida, ele define a configuração padrão do cache usando o método
+     * cacheConfiguration().
+     * Finalmente, ele usa o personalizador fornecido para fazer ajustes adicionais
+     * no construtor antes de construir o gerenciador de cache.
      *
-     * @param redisConnectionFactory a conexão de fábrica Redis
-     * @param customizer o personalizador de construtor de gerenciador de cache Redis
-     * @return o gerenciador de cache Redis construído
+     * @param redisConnectionFactory a fábrica de conexões Redis
+     * @param customizer             o personalizador para o construtor do
+     *                               gerenciador de cache
+     * @return o gerenciador de cache Redis
      */
 
     @Bean
@@ -42,30 +45,35 @@ public class RedisConfig {
     }
 
     /**
-     * <h3>Constrói uma configuração de cache Redis.</h3>
-     * <ul>
-     *  <li>A configuração de cache inclui um tempo de vida (TTL) para as entradas de cache e um serializador para os valores de cache.</li>
-     * </ul>
+     * Este método cria uma configuração de cache padrão.
+     * Ele começa com a configuração de cache padrão do Redis e faz algumas
+     * modificações:
+     * Define um tempo de vida (TTL) para as entradas do cache para 10 minutos.
+     * Define um serializador para os valores do cache usando
+     * JdkSerializationRedisSerializer, que serializa objetos Java para bytes.
      *
-     * @return a configuração de cache Redis construída
+     * @return a configuração de cache
      */
 
     @Bean
     public RedisCacheConfiguration cacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(CacheConstants.DEFAULT_TTL))
+                .entryTtl(Duration.ofHours(10))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair
                         .fromSerializer(new JdkSerializationRedisSerializer()));
     }
 
     /**
-     * <h3>Constrói um personalizador de construtor de gerenciador de cache Redis.</h3>
-     * <ul>
-     *  <li>O personalizador é usado para personalizar a configuração do gerenciador de cache Redis.</li>
-     *  <li>Ele define configurações de cache específicas para diferentes caches.</li>
-     * </ul>
+     * Este método cria um personalizador para o construtor do gerenciador de cache
+     * Redis.
+     * O personalizador define configurações de cache específicas para diferentes
+     * tipos de cache.
+     * Por exemplo, para o tipo de cache "UPDATED_OBJECT", ele desativa o cache de
+     * valores nulos e define um TTL de 20 minutos.
+     * Para o tipo de cache "teste", ele desativa o cache de valores nulos e define
+     * um TTL de 10 minutos.
      *
-     * @return o personalizador de construtor de gerenciador de cache Redis construído
+     * @return o personalizador
      */
 
     @Bean
@@ -74,29 +82,32 @@ public class RedisConfig {
                 .withCacheConfiguration(CacheConstants.MOVIE_CACHE,
                         RedisCacheConfiguration.defaultCacheConfig()
                                 .disableCachingNullValues()
-                                .entryTtl(Duration.ofMinutes(CacheConstants.MOVIE_TTL)))
-                .withCacheConfiguration("teste",
+                                .entryTtl(Duration.ofHours(1)))
+                .withCacheConfiguration(CacheConstants.GENRE_CACHE,
                         RedisCacheConfiguration.defaultCacheConfig()
                                 .disableCachingNullValues()
-                                .entryTtl(Duration.ofMinutes(0)));
+                                .entryTtl(Duration.ofMinutes(40)));
     }
 
     /**
-     * <h3>Constrói um modelo Redis.</h3>
-     * <ul>
-     *  <li>O modelo Redis é configurado com uma conexão de fábrica Redis e um serializador para as chaves.</li>
-     *  <li>Ele é usado para executar operações Redis.</li>
-     * </ul>
+     * Este método cria um modelo Redis.
+     * Primeiro, ele cria um novo modelo Redis e define o serializador padrão para
+     * StringRedisSerializer, que serializa strings para bytes.
+     * Em seguida, ele define a fábrica de conexões do modelo para a fábrica de
+     * conexões Redis fornecida.
+     * Depois disso, ele define o serializador de chave do modelo para
+     * StringRedisSerializer.
+     * Finalmente, ele chama afterPropertiesSet() para inicializar o modelo.
      *
-     * @param redisConnectionFactory a conexão de fábrica Redis
-     * @return o modelo Redis construído
+     * @param cf a fábrica de conexões Redis
+     * @return o modelo Redis
      */
 
     @Bean(name = "redisTemplate")
-    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory cf) {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setDefaultSerializer(new StringRedisSerializer());
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setConnectionFactory(cf);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;

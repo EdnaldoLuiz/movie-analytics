@@ -1,6 +1,7 @@
 package com.ednaldoluiz.moviedash.utils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,15 +32,19 @@ public final class TMDBUtils {
      * @return a URL construída como uma string
      */
 
-    public static String buildUrl(Integer page, List<Long> genreId) {
-        String genres = genreId.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining(","));
-        return UriComponentsBuilder.fromHttpUrl(BASE_URL)
+     public static String buildUrl(Integer page, List<Long> genreId) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                 .queryParam(API_KEY, KEY)
                 .queryParam(LANGUAGE, PT_BR)
-                .queryParam(PAGE, page)
-                .queryParam(GENRE, genres)
-                .toUriString();
+                .queryParam(PAGE, page);
+    
+        if (!Objects.isNull(genreId)) {
+            String genres = genreId.stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining(","));
+            builder.queryParam(GENRE, genres);
+        }
+    
+        return builder.toUriString();
     }
 }

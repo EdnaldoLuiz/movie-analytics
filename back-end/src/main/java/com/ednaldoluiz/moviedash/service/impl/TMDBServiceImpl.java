@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.ednaldoluiz.moviedash.constant.CacheConstants;
 import com.ednaldoluiz.moviedash.dto.request.MoviePageDTO;
 import com.ednaldoluiz.moviedash.dto.request.MovieRequestDTO;
 import com.ednaldoluiz.moviedash.exception.MovieProcessingException;
@@ -34,17 +34,19 @@ public class TMDBServiceImpl implements TMDBService {
     private final RestTemplate restTemplate;
 
     @Override
-    @CacheEvict(value = {"movies"}, allEntries = true)
+    @CacheEvict(
+        cacheNames = CacheConstants.MOVIE_CACHE, 
+        allEntries = true)
     public void fetchTmdbData(Integer totalPages, List<Long> genres) {
         log.info("Gêneros: {}", genres);
+
         for (int currentPage = 1; currentPage <= totalPages; currentPage++) {
             String url = TMDBUtils.buildUrl(currentPage, genres);
             log.info("URL: {}", url);
 
             try {
                 MoviePageDTO moviePage = restTemplate.getForObject(url, MoviePageDTO.class);
-                List<MovieRequestDTO> results = Objects.requireNonNull(moviePage.results());
-                processResults(results);
+                if(Objects.nonNull(moviePage)) processResults(moviePage.results());
             } catch (RestClientException e) {
                 log.error("Erro na busca por dados: {}", e);
             }
@@ -56,7 +58,6 @@ public class TMDBServiceImpl implements TMDBService {
         results.forEach(this::processMovie);
     }
 
-    @CachePut(value = "movies", key = "#result.id")
     private void processMovie(MovieRequestDTO result) {
         log.info("Processando filme: title: {}, releasedDate: {}, genres: {}",
                 result.title(), result.releaseDate(), result.genreIds());

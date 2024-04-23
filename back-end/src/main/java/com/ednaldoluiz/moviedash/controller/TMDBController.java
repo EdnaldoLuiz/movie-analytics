@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import static com.ednaldoluiz.moviedash.constant.APIConstants.API_V1;
-import static com.ednaldoluiz.moviedash.utils.AppUtils.PAGE_NUMBER;
+import static com.ednaldoluiz.moviedash.utils.APIUtils.PAGE_NUMBER;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = API_V1 + "tmdb", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-@Tag(name = "Controller do TMDB", description = TMDBDocs.DESCRIPTION)
+@Tag(name = "Controller de Consumir Filmes", description = TMDBDocs.DESCRIPTION)
 public class TMDBController {
 
     private final TMDBService service;
@@ -35,7 +35,7 @@ public class TMDBController {
     @Operation(summary = "Salvar filmes do TMDB", description = TMDBDocs.FETCH_TMDB_DATA)
     public ResponseEntity<Void> fetchTmdbData(
         @Parameter(description = "Numero de páginas") @RequestParam(defaultValue = PAGE_NUMBER) Integer pages,
-        @Parameter(description = "Gêneros") @RequestParam(defaultValue = "0") List<Long> genres) {
+        @Parameter(description = "Gêneros") @RequestParam(required = false) List<Long> genres) {
             
         log.info("Gêneros: {}", genres);
         service.fetchTmdbData(pages, genres);

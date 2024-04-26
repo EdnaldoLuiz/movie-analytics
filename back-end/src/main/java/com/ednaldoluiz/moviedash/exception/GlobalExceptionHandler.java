@@ -13,20 +13,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public final class GlobalExceptionHandler {
 
-    @ExceptionHandler({ Exception.class })
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({ Exception.class })
     public ErrorResponse handleException(Exception ex) {
         log.error("Ocorreu um erro em 'handleException': {}", ex);
-        return new ErrorResponse("Erro interno: ", ex.getMessage());
+        return new ErrorResponse("Erro interno", ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ MethodArgumentNotValidException.class })
     public List<ErrorResponse> handleNullFieldException(MethodArgumentNotValidException ex) {
         log.error("Ocorreu um erro em 'handleNullFieldException': {}", ex);
-        List<ErrorResponse> errors = new ArrayList<>();
+        final List<ErrorResponse> errors = new ArrayList<>();
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             errors.add(new ErrorResponse(error.getField(), error.getDefaultMessage()));
         });

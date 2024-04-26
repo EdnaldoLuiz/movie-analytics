@@ -4,7 +4,7 @@ CREATE TABLE movies (
     description TEXT,
     original_language VARCHAR(2),
     popularity DECIMAL(7, 3),
-    poster VARCHAR(255),
+    poster TEXT,
     release_date DATE,
     title VARCHAR(255),
     video BOOLEAN,

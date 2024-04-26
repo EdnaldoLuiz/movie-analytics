@@ -43,4 +43,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecific
                 ORDER BY m.voteAverage DESC
             """)
     Page<MovieProjection> findTop5ByGenreAndVoteAverageInYear(Pageable pageable, List<Long> genreIds, Integer year);
+    
 }

@@ -1,6 +1,6 @@
 package com.ednaldoluiz.moviedash.docs;
 
-public class MovieDocs {
+public final class MovieDocs {
 
     public static final String DESCRIPTION = "<h3>Este controlador é responsável por realizar operações CRUD relacionadas a <b>Filmes</b></h3>"
             + "<ul>"
@@ -12,8 +12,15 @@ public class MovieDocs {
             + "<h3>Parâmetros de Busca:</h3>"
             + "<hr>"
             + "<ul>"
-            + "<li><p><b>página</b>: Número da página para a consulta. </p></li>"
-            + "<li><p><b>tamanho</b>: Quantidade de filmes por página. </p></li>"
+            +   "<li><p><b>página</b>: Número da página para a consulta. </p></li>"
+            +   "<li><p><b>tamanho</b>: Quantidade de filmes por página. </p></li>"
+            +   "<li><p><b>sort</b>: Tipo de Ordenação da Página, recebendo um dos valores: </p></li>"
+            +   "<ul>"
+            +     "<li><p><b>voteAverage</b>: Ordena pela média de votos.</p></li>"
+            +     "<li><p><b>releaseDate</b>: Ordena pela data de lançamento.</p></li>"
+            +     "<li><p><b>voteCount</b>: Ordena pela quantidade de votos.</p></li>"
+            +     "<li><p><b>popularity</b>: Ordena pela popularidade.</p></li>"
+            +   "</ul>"
             + "</ul>"
             + "<h3>Observações:</h3>"
             + "<hr>"
@@ -25,8 +32,7 @@ public class MovieDocs {
             + "<h3>Parâmetros de Busca:</h3>"
             + "<hr>"
             + "<ul>"
-            + "<li><p><b>tamanho</b>: Quantidade de filmes por página. </p></li>"
-            + "<li><p><b>IDs dos Gêneros</b>: IDs dos gêneros dos filmes. </p></li>"
+            +   "<li><p><b>IDs dos Gêneros</b>: IDs dos gêneros dos filmes. </p></li>"
             + "</ul>"
             + "<h3>Observações:</h3>"
             + "<hr>"

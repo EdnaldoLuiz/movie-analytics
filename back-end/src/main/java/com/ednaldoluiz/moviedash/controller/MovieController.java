@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ednaldoluiz.moviedash.docs.MovieDocs;
 import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
 import com.ednaldoluiz.moviedash.model.Movie;
+import com.ednaldoluiz.moviedash.model.enums.MovieSortType;
 import com.ednaldoluiz.moviedash.service.MovieService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +27,7 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
-import static com.ednaldoluiz.moviedash.utils.AppUtils.*;
+import static com.ednaldoluiz.moviedash.utils.APIUtils.*;
 import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
 
 @RestController
@@ -45,9 +46,10 @@ public class MovieController {
     })
     public ResponseEntity<Page<MovieResponseDTO>> allMovies(
             @Parameter(description = "Número da Página") @Min(1) @RequestParam(defaultValue = PAGE_NUMBER) int page,
-            @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size) {
-
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(SORT).descending());
+            @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size,
+            @Parameter(description = "Campo de Ordenação") @RequestParam(defaultValue = SORT_DEFAULT) MovieSortType sort) {
+                    
+        Pageable pageable = PageRequest.of(page - 1, size, getSort(sort, "ASC"));
         return ResponseEntity.ok(service.findAllMovies(pageable));
     }
 
@@ -60,7 +62,7 @@ public class MovieController {
     public ResponseEntity<Page<MovieResponseDTO>> top10Movies(
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds) {
 
-        Pageable pageable = PageRequest.of(0, 10, Sort.by(SORT).descending());
+        Pageable pageable = PageRequest.of(0, 10, Sort.by(SORT_DEFAULT).descending());
         return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
     }
 
@@ -74,7 +76,7 @@ public class MovieController {
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds,
             @Parameter(description = "Ano de Lançamento") @RequestParam Integer year) {
 
-        Pageable pageable = PageRequest.of(0, 5, Sort.by(SORT).descending());
+        Pageable pageable = PageRequest.of(0, 5, Sort.by(SORT_DEFAULT).descending());
         return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
     }
 

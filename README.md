@@ -1,4 +1,5 @@
 
+
 <h2 id="api-rest">API Rest 🌐</h2>
 
 ### TMDB Controller
@@ -40,14 +41,14 @@
         <tr>
             <td>/api/v1/genres/count</td>
             <td>GET</td>
-            <td>200, 404</td>
+            <td>200</td>
             <td>GenreProjection</td>
             <td>Contar a Quantidade de Filmes por Gênero</td>
         </tr>
         <tr>
             <td>/api/v1/genres/total</td>
             <td>GET</td>
-            <td>200, 404</td>
+            <td>200</td>
             <td>Map&lt;String, Long&gt;</td>
             <td>Contar a Quantidade Total de Gêneros</td>
         </tr>
@@ -70,33 +71,62 @@
         <tr>
             <td>/api/v1/movies/all</td>
             <td>GET</td>
-            <td>200, 404</td>
+            <td>200</td>
             <td>Page&lt;MovieResponseDTO&gt;</td>
             <td>Buscar todos os Filmes com Paginação</td>
         </tr>
         <tr>
             <td>/api/v1/movies/top10</td>
             <td>GET</td>
-            <td>200, 404</td>
+            <td>200</td>
             <td>Page&lt;MovieResponseDTO&gt;</td>
             <td>Buscar uma Página com o Top 10 de Filmes</td>
         </tr>
         <tr>
             <td>/api/v1/movies/top5</td>
             <td>GET</td>
-            <td>200, 404</td>
+            <td>200</td>
             <td>Page&lt;MovieResponseDTO&gt;</td>
             <td>Buscar uma Página com o Top 5 Filmes por Ano</td>
         </tr>
         <tr>
             <td>/api/v1/movies/search</td>
             <td>GET</td>
-            <td>200, 404</td>
+            <td>200</td>
             <td>Page&lt;Movie&gt;</td>
             <td>Buscar todos os Filmes com Paginação</td>
         </tr>
     </tbody>
 </table>
+
+<h2>Modelo Relacional</h2>
+
+```mermaid
+classDiagram
+direction LR
+    class Genre {
+        - id: Long
+        - name: String
+        - movies: List&lt;Movie&gt
+    }
+
+    class Movie {
+        - id: Long
+        - adult: Boolean
+        - poster: String
+        - language: String
+        - title: String
+        - description: String
+        - popularity: Double
+        - releaseDate: LocalDate
+        - video: Boolean
+        - voteAverage: Double
+        - voteCount: Integer
+        - genres: List&lt;Genre&gt
+    }
+
+    Genre "1..*" -- "0..*" Movie : classificado como
+```
 
 <h2 id="principais-bibliotecas">Principais Dependências 📚</h2>
 

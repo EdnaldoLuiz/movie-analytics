@@ -1,5 +1,8 @@
 package com.ednaldoluiz.moviedash.config;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,14 +29,21 @@ public class SwaggerConfig {
     private static final String CONTACT_URL = "https://ednaldo-luiz.vercel.app";
     private static final String LICENSE_NAME = "Licença MIT";
     private static final String LICENSE_URL = "https://opensource.org/licenses/MIT";
+    private static final String LOCALHOST = "http://localhost:";
+    private static final TreeMap<String, String> SERVERS = new TreeMap<>();
+
+    static {
+        SERVERS.put(LOCALHOST + 8080, "Servidor local");
+        SERVERS.put(LOCALHOST + 8081, "Servidor docker");
+        SERVERS.put(LOCALHOST + 8082, "Servidor produção");
+    }
 
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(getComponents())
                 .info(getApiInfo())
-                .addSecurityItem(new SecurityRequirement().addList(BEARER_KEY)).
-                addServersItem(getServer());
+                .addSecurityItem(new SecurityRequirement().addList(BEARER_KEY)).servers(getServers());
     }
 
     private Components getComponents() {
@@ -60,10 +70,12 @@ public class SwaggerConfig {
                 .url(CONTACT_URL);
     }
 
-    private Server getServer() {
-        return new Server()
-                .url("http://localhost:8080")
-                .description("Servidor local");
+    private List<Server> getServers() {
+        List<Server> servers = new ArrayList<>();
+        SERVERS.forEach((url, description) -> servers.add(new Server()
+                .url(url)
+                .description(description)));
+        return servers;
     }
 
     private License getLicense() {

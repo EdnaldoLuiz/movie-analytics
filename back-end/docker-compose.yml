@@ -1,6 +1,9 @@
 version: '3.8'
 
 services:
+
+###################### POSTGRES ######################
+
   db:
     image: postgres:13
     restart: always
@@ -9,9 +12,11 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_DB: postgres
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql/data
     ports:
       - 5434:5432
+
+###################### REDIS ######################
 
   cache:
     image: redis
@@ -21,15 +26,65 @@ services:
     ports:
       - 6379:6379
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+###################### APP ######################
+
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - db
+  #     - cache
+
+###################### ELASTICSEARCH ######################
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.3
+    container_name: elasticsearch
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+      - xpack.security.enabled=false
     ports:
-      - 8080:8080
+      - 9200:9200
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+
+###################### KIBANA ######################
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.3.3
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
-      - db
-      - cache
+      - elasticsearch
+
+###################### LOGSTASH ######################
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.3.3
+    container_name: logstash
+    volumes:
+      - ./ELK/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./ELK/logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - 5044:5044
+      - 5000:5000/tcp
+      - 5000:5000/udp
+      - 9600:9600
+    environment:
+      LS_JAVA_OPTS: "-Xms256m -Xms256m"
+    depends_on:
+      - elasticsearch
 
 volumes:
   db:
+  elasticsearch:
+    driver: local

@@ -8,4 +8,4 @@ FROM openjdk:17-jdk
 WORKDIR /app
 COPY --from=build /app .
 EXPOSE 8080
-ENTRYPOINT ["./wait-for-postgres.sh", "java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

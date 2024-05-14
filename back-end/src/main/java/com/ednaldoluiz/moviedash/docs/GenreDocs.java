@@ -1,13 +1,36 @@
 package com.ednaldoluiz.moviedash.docs;
 
 public final class GenreDocs {
-    
-    public static final String DESCRIPTION = "<h3>Este controlador é responsável por realizar operações relacionadas a <b>Gêneros</b></h3>"
+
+    /**
+     * ------------------------- Count de Gêneros -------------------------
+     */
+
+    public static final String GENRE_COUNT_SUMMARY = "Contar a Quantidade de Filmes por Gênero";
+    public static final String GENRE_COUNT_RESPONSE_200 = "Quantidade de filmes por gênero retornada com sucesso";
+    public static final String GENRE_COUNT_RESPONSE_404 = "Nenhum filme encontrado para o gênero solicitado";
+
+    /**
+     * ------------------------- Count do Total de Gêneros -------------------------
+     */
+
+    public static final String GENRE_TOTAL_SUMMARY = "Contar a Quantidade Total de Gêneros";
+    public static final String GENRE_TOTAL_RESPONSE_200 = "Quantidade total de gêneros retornada com sucesso";
+    public static final String GENRE_TOTAL_RESPONSE_404 = "Nenhum gênero encontrado";
+
+    /**
+     * ------------------------- Controller de Gêneros -------------------------
+     */
+
+    public static final String GENRE_CONTROLLER_NAME = "Controller de Operaçoes com Gêneros";
+
+    public static final String GENRE_CONTROLLER_DESCRIPTION = "<h3>Este controlador é responsável por realizar operações relacionadas a <b>Gêneros</b></h3>"
             + "<ul>"
             + "<li>Fornece um endpoint para contar a quantidade de filmes por gênero.</li>"
+            + "<li>Fornece um endpoint para contar a quantidade total de gêneros.</li>"
             + "</ul>";
 
-    public static final String COUNT_BY_GENRE = "<h2>Este endpoint conta a quantidade de filmes por gênero.</h2>"
+    public static final String GENRE_COUNT_DESCRIPTION = "<h2>Este endpoint conta a quantidade de filmes por gênero.</h2>"
             + "<h3>Parâmetros de Busca:</h3>"
             + "<hr>"
             + "<ul>"
@@ -18,5 +41,11 @@ public final class GenreDocs {
             + "<ul>"
             + "<li><p>Se nenhum filme for encontrado para o gênero solicitado, uma mensagem será retornada.</p></li>"
             + "</ul>";
-            
+
+    public static final String GENRE_TOTAL_DESCRIPTION = "<h2>Este endpoint conta a quantidade total de gêneros.</h2>"
+            + "<h3>Observações:</h3>"
+            + "<hr>"
+            + "<ul>"
+            + "<li><p>Se nenhum gênero for encontrado, uma mensagem será retornada.</p></li>"
+            + "</ul>";
 }

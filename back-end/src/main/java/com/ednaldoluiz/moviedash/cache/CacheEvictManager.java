@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CacheEvictSchedule {
+public class CacheEvictManager {
 
     private static final long HOURLY = 60 * 60 * 1000;
 
@@ -17,10 +17,18 @@ public class CacheEvictSchedule {
     private CacheManager cacheManager;
 
     @Scheduled(fixedRate = HOURLY)
+    public void scheduledEvictAllCaches() {
+        evictAllCaches();
+    }
+
     public void evictAllCaches() {
-        cacheManager.getCacheNames().forEach(cacheName -> {
-            Cache cache = cacheManager.getCache(cacheName);
-            if (Objects.nonNull(cache)) cache.clear();
-        });
+        cacheManager.getCacheNames().forEach(this::clearCache);
+    }
+
+    private void clearCache(String cacheName) {
+        Cache cache = cacheManager.getCache(cacheName);
+        if (Objects.nonNull(cache)) {
+            cache.clear();
+        }
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ednaldoluiz.moviedash.docs.MovieDocs;
 import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
 import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.model.enums.MovieSortType;
@@ -30,19 +29,21 @@ import lombok.RequiredArgsConstructor;
 import static com.ednaldoluiz.moviedash.utils.APIUtils.*;
 import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
 
+import static com.ednaldoluiz.moviedash.docs.MovieDocs.*;
+
 @RestController
 @RequestMapping(API_V1 + MOVIES)
 @RequiredArgsConstructor
-@Tag(name = "Controller de Buscar Filmes", description = MovieDocs.DESCRIPTION)
+@Tag(name = MOVIE_CONTROLLER_NAME, description = MOVIE_CONTROLLER_DESCRIPTION)
 public class MovieController {
 
     private final MovieService service;
 
     @GetMapping(ALL)
-    @Operation(summary = "Buscar todos os Filmes com Paginação", description = MovieDocs.ALL)
+    @Operation(summary = MOVIE_ALL_SUMMARY, description = MOVIE_ALL)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista de filmes paginada retornada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado na página solicitada"),
+            @ApiResponse(responseCode = "200", description = MOVIE_ALL_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = MOVIE_ALL_RESPONSE_404),
     })
     public ResponseEntity<Page<MovieResponseDTO>> allMovies(
             @Parameter(description = "Número da Página") @Min(1) @RequestParam(defaultValue = PAGE_NUMBER) int page,
@@ -54,10 +55,10 @@ public class MovieController {
     }
 
     @GetMapping("/top10")
-    @Operation(summary = "Buscar uma Página com o Top 10 de Filmes", description = MovieDocs.TOP_10)
+    @Operation(summary = MOVIE_TOP10_SUMMARY, description = MOVIE_TOP_10)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Top 10 filmes retornados com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado para os gêneros solicitados"),
+            @ApiResponse(responseCode = "200", description = MOVIE_TOP10_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = MOVIE_TOP10_RESPONSE_404),
     })
     public ResponseEntity<Page<MovieResponseDTO>> top10Movies(
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds) {
@@ -67,10 +68,10 @@ public class MovieController {
     }
 
     @GetMapping("/top5")
-    @Operation(summary = "Buscar uma Página com o Top 5 Filmes por Ano", description = MovieDocs.TOP_5)
+    @Operation(summary = MOVIE_TOP5_SUMMARY, description = MOVIE_TOP_5)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Top 5 filmes retornados com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado para os gêneros e ano solicitado"),
+            @ApiResponse(responseCode = "200", description = MOVIE_TOP5_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = MOVIE_TOP5_RESPONSE_404),
     })
     public ResponseEntity<Page<MovieResponseDTO>> top5MoviesPerYear(
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds,
@@ -81,10 +82,10 @@ public class MovieController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "Buscar todos os Filmes com Paginação", description = MovieDocs.SEARCH)
+    @Operation(summary = MOVIE_SEARCH_SUMMARY, description = MOVIE_SEARCH)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Filmes com o título solicitado encontrados com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado com o título solicitado"),
+            @ApiResponse(responseCode = "200", description = MOVIE_SEARCH_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = MOVIE_SEARCH_RESPONSE_404),
     })
     public ResponseEntity<Page<Movie>> searchMovies(
             @Parameter(description = "Titulo do Filme para a Pesquisa") @RequestParam String title,

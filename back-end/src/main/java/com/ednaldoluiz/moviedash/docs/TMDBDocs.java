@@ -2,12 +2,16 @@ package com.ednaldoluiz.moviedash.docs;
 
 public final class TMDBDocs {
 
-    public static final String DESCRIPTION = "<h3>Este controlador é responsável por realizar operações relacionadas ao <b>TMDB</b></h3>"
+    public static final String TMDB_SUMMARY = "Salvar filmes da API do TMDB";
+
+    public static final String TMDB_CONTROLLER_NAME = "Controller de Consumir Filmes por Gêneros";
+
+    public static final String TMDB_CONTROLLER_DESCRIPTION = "<h3>Este controlador é responsável por realizar operações relacionadas ao <b>TMDB</b></h3>"
             + "<ul>"
             + "<li>Fornece um endpoint para buscar e salvar dados do TMDB.</li>"
             + "</ul>";
 
-    public static final String FETCH_TMDB_DATA = "<h2>Este endpoint busca e salva dados do TMDB.</h2>"
+    public static final String TMDB_FETCH_DATA = "<h2>Este endpoint busca e salva dados do TMDB.</h2>"
             + "<h3>Parâmetros de Busca:</h3>"
             + "<hr>"
             + "<ul>"

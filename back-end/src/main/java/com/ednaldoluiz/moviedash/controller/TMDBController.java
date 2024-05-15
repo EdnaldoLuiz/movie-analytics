@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ednaldoluiz.moviedash.docs.TMDBDocs;
+import static com.ednaldoluiz.moviedash.docs.TMDBDocs.*;
 import com.ednaldoluiz.moviedash.service.TMDBService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,13 +26,13 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = API_V1 + "tmdb", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-@Tag(name = "Controller de Consumir Filmes", description = TMDBDocs.DESCRIPTION)
+@Tag(name = TMDB_CONTROLLER_NAME, description = TMDB_CONTROLLER_DESCRIPTION)
 public class TMDBController {
 
     private final TMDBService service;
 
     @GetMapping("/fetch")
-    @Operation(summary = "Salvar filmes do TMDB", description = TMDBDocs.FETCH_TMDB_DATA)
+    @Operation(summary = TMDB_SUMMARY, description = TMDB_FETCH_DATA)
     public ResponseEntity<Void> fetchTmdbData(
         @Parameter(description = "Numero de páginas") @RequestParam(defaultValue = PAGE_NUMBER) Integer pages,
         @Parameter(description = "Gêneros") @RequestParam(required = false) List<Long> genres) {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ednaldoluiz.moviedash.docs.GenreDocs;
+import static com.ednaldoluiz.moviedash.docs.GenreDocs.*;
 import com.ednaldoluiz.moviedash.repository.projection.GenreProjection;
 import com.ednaldoluiz.moviedash.service.GenreService;
 
@@ -24,16 +24,16 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping(API_V1 + GENRES)
 @RequiredArgsConstructor
-@Tag(name = "Controller de Operaçoes com Gêneros", description = GenreDocs.DESCRIPTION)
+@Tag(name = GENRE_CONTROLLER_NAME, description = GENRE_CONTROLLER_DESCRIPTION)
 public class GenreController {
 
     private final GenreService service;
-    
+
     @GetMapping("/count")
-    @Operation(summary = "Contar a Quantidade de Filmes por Gênero", description = GenreDocs.COUNT_BY_GENRE)
+    @Operation(summary = GENRE_COUNT_SUMMARY, description = GENRE_COUNT_DESCRIPTION)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Quantidade de filmes por gênero retornada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Nenhum filme encontrado para o gênero solicitado"),
+            @ApiResponse(responseCode = "200", description = GENRE_COUNT_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = GENRE_COUNT_RESPONSE_404),
     })
     public ResponseEntity<GenreProjection> countMoviesByGenre(
             @Parameter(description = "ID do Gênero") @RequestParam Long genreId) {
@@ -42,10 +42,10 @@ public class GenreController {
     }
 
     @GetMapping("/total")
-    @Operation(summary = "Contar a Quantidade Total de Gêneros")
+    @Operation(summary = GENRE_TOTAL_SUMMARY, description = GENRE_TOTAL_DESCRIPTION)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Quantidade total de gêneros retornada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Nenhum gênero encontrado"),
+            @ApiResponse(responseCode = "200", description = GENRE_TOTAL_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = GENRE_TOTAL_RESPONSE_404),
     })
     public ResponseEntity<Map<String, Long>> countTotalGenres() {
         return ResponseEntity.ok(service.countTotalGenres());

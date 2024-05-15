@@ -1,24 +1,29 @@
-package com.ednaldoluiz.moviedash.utils;
+package com.ednaldoluiz.moviedash.tmdb;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class TMDBUtils {
+@Component
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+public final class TMDBUrlBuilder {
 
-    public static final String API_KEY = "api_key";
-    public static final String KEY = "e4f6fca45b95d5b6b44904d806c9fe0d";
-    public static final String BASE_URL = "https://api.themoviedb.org/3/discover/movie";
-    public static final String LANGUAGE = "language";
-    public static final String PT_BR = "pt-BR";
-    public static final String GENRE = "with_genres";
-    public static final String PAGE = "page";
+    @Value("${tmdb.api.key}")
+    private String KEY;
+
+    private static String API_KEY = "api_key";
+    private static String BASE_URL = "https://api.themoviedb.org/3/discover/movie";
+    private static String LANGUAGE = "language";
+    private static String PT_BR = "pt-BR";
+    private static String GENRE = "with_genres";
+    private static String PAGE = "page";
 
     /**
      * <h3>Constrói uma URL para consultar a API de filmes do TMDB.</h3>
@@ -32,7 +37,7 @@ public final class TMDBUtils {
      * @return a URL construída como uma string
      */
 
-     public static String buildUrl(Integer page, List<Long> genreId) {
+     public String buildUrl(Integer page, List<Long> genreId) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                 .queryParam(API_KEY, KEY)
                 .queryParam(LANGUAGE, PT_BR)

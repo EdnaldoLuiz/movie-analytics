@@ -1,6 +1,6 @@
 package com.ednaldoluiz.moviedash.constant;
 
-public class CacheConstants {
+public final class CacheConstants {
 
     private static final String SEPARATOR = "_";
     private static final String CACHE = "cache";

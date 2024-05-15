@@ -3,14 +3,13 @@ package com.ednaldoluiz.moviedash.service.impl;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.ednaldoluiz.moviedash.constant.CacheConstants;
+import com.ednaldoluiz.moviedash.cache.CacheEvictManager;
 import com.ednaldoluiz.moviedash.dto.request.MoviePageDTO;
 import com.ednaldoluiz.moviedash.dto.request.MovieRequestDTO;
 import com.ednaldoluiz.moviedash.exception.MovieProcessingException;
@@ -19,7 +18,7 @@ import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.repository.GenreRepository;
 import com.ednaldoluiz.moviedash.repository.MovieRepository;
 import com.ednaldoluiz.moviedash.service.TMDBService;
-import com.ednaldoluiz.moviedash.utils.TMDBUtils;
+import com.ednaldoluiz.moviedash.tmdb.TMDBUrlBuilder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,17 +30,16 @@ public class TMDBServiceImpl implements TMDBService {
 
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
+    private final TMDBUrlBuilder urlBuilder;
     private final RestTemplate restTemplate;
+    private final CacheEvictManager cacheEvictManager;
 
     @Override
-    @CacheEvict(
-        cacheNames = CacheConstants.MOVIE_CACHE, 
-        allEntries = true)
     public void fetchTmdbData(Integer totalPages, List<Long> genres) {
         log.info("Gêneros: {}", genres);
 
         for (int currentPage = 1; currentPage <= totalPages; currentPage++) {
-            String url = TMDBUtils.buildUrl(currentPage, genres);
+            String url = urlBuilder.buildUrl(currentPage, genres);
             log.info("URL: {}", url);
 
             try {
@@ -55,6 +53,7 @@ public class TMDBServiceImpl implements TMDBService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = MovieProcessingException.class)
     private void processResults(List<MovieRequestDTO> results) {
+        cacheEvictManager.evictAllCaches();
         results.forEach(this::processMovie);
     }
 

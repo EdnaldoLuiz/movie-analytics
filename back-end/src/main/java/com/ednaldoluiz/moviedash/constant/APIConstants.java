@@ -1,6 +1,6 @@
 package com.ednaldoluiz.moviedash.constant;
 
-public class APIConstants {
+public final class APIConstants {
 
     private static final String SUFFIX = "/";
     private static final String API = "api";

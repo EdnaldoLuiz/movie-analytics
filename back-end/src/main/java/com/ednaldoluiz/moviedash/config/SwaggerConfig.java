@@ -22,7 +22,6 @@ public class SwaggerConfig {
     private static final String BEARER = "bearer";
     private static final String JWT = "JWT";
     private static final String API_TITLE = "Movie Dash API";
-    private static final String API_DESCRIPTION = "API para consulta de filmes baseada no TMDB.";
     private static final String API_VERSION = "1.0.0";
     private static final String CONTACT_NAME = "Ednaldo Luiz";
     private static final String CONTACT_EMAIL = "contatoednaldoluiz@gmail.com";
@@ -30,6 +29,14 @@ public class SwaggerConfig {
     private static final String LICENSE_NAME = "Licença MIT";
     private static final String LICENSE_URL = "https://opensource.org/licenses/MIT";
     private static final String LOCALHOST = "http://localhost:";
+    private static final String API_DESCRIPTION = "<p>Esta é uma API robusta e abrangente para consulta de filmes e gêneros, baseada na base de dados do TMDB. A API oferece uma variedade de funcionalidades, permitindo aos usuários:</p>"
+    + "<ul>"
+    +   "<li><strong>Consultar filmes:</strong> Os usuários podem pesquisar filmes por vários critérios, incluindo título, gênero, ano de lançamento, entre outros.</li>"
+    +   "<li><strong>Consultar gêneros:</strong> A API fornece informações detalhadas sobre diferentes gêneros, incluindo a quantidade de filmes por gênero.</li>"
+    +   "<li><strong>Analisar estatísticas de popularidade:</strong> A API permite aos usuários realizar análises de crescimento de popularidade por gênero. Isso pode ser útil para identificar tendências e padrões na indústria cinematográfica.</li>"
+    + "</ul>"
+    + "<p>A API é projetada com uma arquitetura limpa e fácil de usar. Ela fornece endpoints bem documentados e seguros, permitindo aos usuários acessar facilmente as informações de que precisam.</p>";
+
     private static final TreeMap<String, String> SERVERS = new TreeMap<>();
 
     static {

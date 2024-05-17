@@ -31,6 +31,17 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
                 """)
     List<Object[]> findGenresWithMoreThanOneMovie();
 
+    @Query("""
+                SELECT g.name as name, AVG(m.popularity) as popularity,
+                (SELECT AVG(m2.popularity) FROM Movie m2 INNER JOIN m2.genres g2 WHERE g2.id = g.id AND YEAR(m2.releaseDate) = :previousYear) as previousAvgPopularity
+                FROM Genre g
+                INNER JOIN g.movies m
+                WHERE YEAR(m.releaseDate) = :currentYear
+                GROUP BY g.name
+                HAVING AVG(m.popularity) > (SELECT AVG(m2.popularity) FROM Movie m2 INNER JOIN m2.genres g2 WHERE g2.id = g.id AND YEAR(m2.releaseDate) = :previousYear)
+            """)
+    List<Object[]> findGenresWithHighestGrowthInPopularity(Integer currentYear, Integer previousYear);
+
     @Query("SELECT g.name, COUNT(m) as quantity FROM Genre g INNER JOIN g.movies m GROUP BY g.name ORDER BY quantity DESC")
     List<GenreProjection> findMostPopularGenres();
 

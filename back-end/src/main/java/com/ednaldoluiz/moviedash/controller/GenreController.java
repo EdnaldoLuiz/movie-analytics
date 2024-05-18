@@ -20,7 +20,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping(API_V1 + GENRES)
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ public class GenreController {
     public ResponseEntity<GenreProjection> countMoviesByGenre(
             @Parameter(description = "ID do Gênero") @RequestParam Long genreId) {
 
+        log.info("Contando filmes por gênero: {}", genreId);
         return ResponseEntity.ok(service.countByGenresId(genreId));
     }
 
@@ -48,6 +51,22 @@ public class GenreController {
             @ApiResponse(responseCode = "404", description = GENRE_TOTAL_RESPONSE_404),
     })
     public ResponseEntity<Map<String, Long>> countTotalGenres() {
+
+        log.info("Contando total de gêneros");
         return ResponseEntity.ok(service.countTotalGenres());
+    }
+
+    @GetMapping("/popularity")
+    @Operation(summary = GENRE_POPULARITY_SUMMARY, description = GENRE_POPULARITY_DESCRIPTION)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = GENRE_POPULARITY_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = GENRE_POPULARITY_RESPONSE_404),
+    })
+    public ResponseEntity<Map<String, Long>> countGenresHighestPopularity(
+            @Parameter(description = "Ano atual") @RequestParam Integer currentYear,
+            @Parameter(description = "Ano anterior") @RequestParam Integer previousYear) {
+
+        log.info("Contando gêneros com maior crescimento de popularidade: {} e {}", currentYear, previousYear);
+        return ResponseEntity.ok(service.countGenresHighestPopularity(currentYear, previousYear));
     }
 }

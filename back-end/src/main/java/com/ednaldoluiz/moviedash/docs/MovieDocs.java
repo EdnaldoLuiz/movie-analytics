@@ -42,8 +42,10 @@ public final class MovieDocs {
 
     public static final String MOVIE_CONTROLLER_DESCRIPTION = "<h3>Este controlador é responsável por realizar operações CRUD relacionadas a <b>Filmes</b></h3>"
             + "<ul>"
-            + "<li>Fornece endpoints para buscar todos os filmes, os 10 melhores filmes e pesquisar filmes por título.</li>"
-            + "<li>Cada endpoint suporta paginação e ordenação.</li>"
+            +   "<li>Fornece endpoints para buscar todos os filmes, os 10 melhores filmes e pesquisar filmes por título.</li>"        + "<li>Fornece um endpoint para buscar todos os filmes com paginação.</li>"
+            +   "<li>Fornece um endpoint para buscar o Top 10 de filmes.</li>"
+            +   "<li>Fornece um endpoint para buscar o Top 5 de filmes por ano.</li>"
+            +   "<li>Fornece um endpoint para buscar filmes por título.</li>"          
             + "</ul>";
 
     public static final String MOVIE_ALL = "<h2>Este endpoint busca todos os filmes com paginação.</h2>"

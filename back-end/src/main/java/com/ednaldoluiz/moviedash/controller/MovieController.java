@@ -25,12 +25,14 @@ import jakarta.validation.constraints.Min;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import static com.ednaldoluiz.moviedash.utils.APIUtils.*;
 import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
 
 import static com.ednaldoluiz.moviedash.docs.MovieDocs.*;
 
+@Slf4j
 @RestController
 @RequestMapping(API_V1 + MOVIES)
 @RequiredArgsConstructor
@@ -50,6 +52,7 @@ public class MovieController {
             @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size,
             @Parameter(description = "Campo de Ordenação") @RequestParam(defaultValue = SORT_DEFAULT) MovieSortType sort) {
                     
+        log.info("Listando todos os filmes na página {} com tamanho de {} ordenado por {}", page, size, sort);
         Pageable pageable = PageRequest.of(page - 1, size, getSort(sort, "ASC"));
         return ResponseEntity.ok(service.findAllMovies(pageable));
     }
@@ -63,6 +66,7 @@ public class MovieController {
     public ResponseEntity<Page<MovieResponseDTO>> top10Movies(
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds) {
 
+        log.info("Listando os 10 melhores filmes por gênero: {}", genreIds);
         Pageable pageable = PageRequest.of(0, 10, Sort.by(SORT_DEFAULT).descending());
         return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
     }
@@ -77,6 +81,7 @@ public class MovieController {
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds,
             @Parameter(description = "Ano de Lançamento") @RequestParam Integer year) {
 
+        log.info("Listando os 5 melhores filmes por gênero no ano de {}: {}", year, genreIds);
         Pageable pageable = PageRequest.of(0, 5, Sort.by(SORT_DEFAULT).descending());
         return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
     }
@@ -92,6 +97,7 @@ public class MovieController {
             @Parameter(description = "Número da Página") @Min(1) @RequestParam(defaultValue = PAGE_NUMBER) int page,
             @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size) {
 
+        log.info("Buscando por: {}", title);
         PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by("title"));
         return ResponseEntity.ok(service.findMoviesByTitle(title, pageRequest));
     }

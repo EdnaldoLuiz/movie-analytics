@@ -37,16 +37,16 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    @Cacheable(cacheNames = GENRE_CACHE + "popularity_growth", key = "{'total'}")
-    public Map<String, Long> countGenresHighestPopularity(Integer currentYear, Integer previousYear) {
-        log.info("Contando gêneros com maior crescimento de popularidade: {} e {}", currentYear, previousYear);
-        return convertArrayToMap(genreRepository.findGenresWithHighestGrowthInPopularity(currentYear, previousYear));
-    }
-
-    @Override
     @Cacheable(cacheNames = GENRE_CACHE + "popularity", key = "{'total'}")
     public List<GenreProjection> getMostPopularGenres() {
         return genreRepository.findMostPopularGenres();
+    }
+
+    @Override
+    @Cacheable(cacheNames = GENRE_CACHE + "popularity_growth", key = "{#currentYear, #previousYear}")
+    public Map<String, Long> countGenresHighestPopularityGrowth(Integer currentYear, Integer previousYear) {
+        log.info("Contando gêneros com maior crescimento de popularidade: {} e {}", currentYear, previousYear);
+        return convertArrayToMap(genreRepository.findGenresWithHighestGrowthInPopularity(currentYear, previousYear));
     }
 
     /**

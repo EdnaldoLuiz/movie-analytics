@@ -13,6 +13,6 @@ public interface GenreService {
 
     Map<String, Long> countTotalGenres();
 
-    Map<String, Long> countGenresHighestPopularity(Integer currentYear, Integer previousYear);
+    Map<String, Long> countGenresHighestPopularityGrowth(Integer currentYear, Integer previousYear);
 
 }

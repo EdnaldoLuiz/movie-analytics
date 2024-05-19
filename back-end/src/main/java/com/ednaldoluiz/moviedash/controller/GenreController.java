@@ -2,6 +2,7 @@ package com.ednaldoluiz.moviedash.controller;
 
 import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class GenreController {
             @ApiResponse(responseCode = "200", description = GENRE_COUNT_RESPONSE_200),
             @ApiResponse(responseCode = "404", description = GENRE_COUNT_RESPONSE_404),
     })
-    public ResponseEntity<GenreProjection> countMoviesByGenre(
+    public ResponseEntity<GenreProjection> countGenres(
             @Parameter(description = "ID do Gênero") @RequestParam Long genreId) {
 
         log.info("Contando filmes por gênero: {}", genreId);
@@ -56,7 +57,20 @@ public class GenreController {
         return ResponseEntity.ok(service.countTotalGenres());
     }
 
-    @GetMapping("/popularity")
+    @GetMapping("/popular-genres")
+    @Operation(summary = GENRE_COUNT_SUMMARY, description = GENRE_COUNT_DESCRIPTION)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = GENRE_COUNT_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = GENRE_COUNT_RESPONSE_404),
+    })
+    public ResponseEntity<List<GenreProjection>> mostPopularGenres(
+            @Parameter(description = "ID do Gênero") @RequestParam Long genreId) {
+
+        log.info("Contando filmes por gênero: {}", genreId);
+        return ResponseEntity.ok(service.getMostPopularGenres());
+    }
+
+    @GetMapping("/popularity-growth")
     @Operation(summary = GENRE_POPULARITY_SUMMARY, description = GENRE_POPULARITY_DESCRIPTION)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = GENRE_POPULARITY_RESPONSE_200),
@@ -67,6 +81,6 @@ public class GenreController {
             @Parameter(description = "Ano anterior") @RequestParam Integer previousYear) {
 
         log.info("Contando gêneros com maior crescimento de popularidade: {} e {}", currentYear, previousYear);
-        return ResponseEntity.ok(service.countGenresHighestPopularity(currentYear, previousYear));
+        return ResponseEntity.ok(service.countGenresHighestPopularityGrowth(currentYear, previousYear));
     }
 }

@@ -19,13 +19,12 @@ public final class GenreDocs {
     public static final String GENRE_TOTAL_RESPONSE_404 = "Nenhum gênero encontrado";
 
     /**
-     * ------------------------- Count de Popularidade dos Gêneros
-     * -------------------------
+     * ------------------------- Count de Gêneros Mais Populares -------------------------
      */
 
-    public static final String GENRE_POPULARITY_SUMMARY = "Contar os Gêneros com Maior Crescimento de Popularidade";
-    public static final String GENRE_POPULARITY_RESPONSE_200 = "Gêneros com maior crescimento de popularidade retornados com sucesso";
-    public static final String GENRE_POPULARITY_RESPONSE_404 = "Nenhum gênero encontrado para os anos solicitados";
+    public static final String GENRE_POPULARITY_SUMMARY = "Contar os Gêneros Mais Populares";
+    public static final String GENRE_POPULARITY_RESPONSE_200 = "Gêneros mais populares retornados com sucesso";
+    public static final String GENRE_POPULARITY_RESPONSE_404 = "Nenhum gênero popular encontrado";
 
     /**
      * ------------------------- Controller de Gêneros -------------------------
@@ -35,40 +34,36 @@ public final class GenreDocs {
 
     public static final String GENRE_CONTROLLER_DESCRIPTION = "<h3>Este controlador é responsável por realizar operações relacionadas a <b>Gêneros</b></h3>"
             + "<ul>"
-            +   "<li>Fornece um endpoint para contar a quantidade de filmes por gênero.</li>"
-            +   "<li>Fornece um endpoint para contar a quantidade total de gêneros.</li>"
-            +   "<li>Fornece um endpoint para identificar os gêneros com maior crescimento de popularidade.</li>"
+            + "<li>Fornece um endpoint para contar a quantidade de filmes por gênero.</li>"
+            + "<li>Fornece um endpoint para contar a quantidade total de gêneros.</li>"
+            + "<li>Fornece um endpoint para identificar os gêneros com maior crescimento de popularidade.</li>"
+            + "<li>Fornece um endpoint para identificar os gêneros mais populares.</li>"
             + "</ul>";
 
     public static final String GENRE_COUNT_DESCRIPTION = "<h2>Este endpoint conta a quantidade de filmes por gênero.</h2>"
             + "<h3>Parâmetros de Busca:</h3>"
             + "<hr>"
             + "<ul>"
-            +   "<li><p><b>ID do Gênero</b>: ID do gênero para a consulta. </p></li>"
+            + "<li><p><b>ID do Gênero</b>: ID do gênero para a consulta. </p></li>"
             + "</ul>"
             + "<h3>Observações:</h3>"
             + "<hr>"
             + "<ul>"
-            +   "<li><p>Se nenhum filme for encontrado para o gênero solicitado, uma mensagem será retornada.</p></li>"
+            + "<li><p>Se nenhum filme for encontrado para o gênero solicitado, uma mensagem será retornada.</p></li>"
             + "</ul>";
 
     public static final String GENRE_TOTAL_DESCRIPTION = "<h2>Este endpoint conta a quantidade total de gêneros.</h2>"
             + "<h3>Observações:</h3>"
             + "<hr>"
             + "<ul>"
-            +   "<li><p>Se nenhum gênero for encontrado, uma mensagem será retornada.</p></li>"
+            + "<li><p>Se nenhum gênero for encontrado, uma mensagem será retornada.</p></li>"
             + "</ul>";
 
-    public static final String GENRE_POPULARITY_DESCRIPTION = "<h2>Este endpoint conta os gêneros com maior crescimento de popularidade.</h2>"
-            + "<h3>Parâmetros de Busca:</h3>"
-            + "<hr>"
-            + "<ul>"
-            +   "<li><p><b>Ano Atual</b>: Ano atual para a consulta. </p></li>"
-            +   "<li><p><b>Ano Anterior</b>: Ano anterior para a consulta. </p></li>"
-            + "</ul>"
+    public static final String GENRE_POPULARITY_DESCRIPTION = "<h2>Este endpoint conta os gêneros mais populares.</h2>"
             + "<h3>Observações:</h3>"
             + "<hr>"
             + "<ul>"
-            +   "<li><p>Se nenhum gênero for encontrado para os anos solicitados, uma mensagem será retornada.</p></li>"
+            + "<li><p>Se nenhum gênero popular for encontrado, uma mensagem será retornada.</p></li>"
             + "</ul>";
+
 }

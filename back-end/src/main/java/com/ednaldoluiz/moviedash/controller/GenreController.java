@@ -58,29 +58,15 @@ public class GenreController {
     }
 
     @GetMapping("/popular-genres")
-    @Operation(summary = GENRE_COUNT_SUMMARY, description = GENRE_COUNT_DESCRIPTION)
+    @Operation(summary = GENRE_POPULARITY_SUMMARY, description = GENRE_POPULARITY_DESCRIPTION)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = GENRE_COUNT_RESPONSE_200),
-            @ApiResponse(responseCode = "404", description = GENRE_COUNT_RESPONSE_404),
+            @ApiResponse(responseCode = "200", description = GENRE_POPULARITY_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = GENRE_POPULARITY_RESPONSE_404),
     })
     public ResponseEntity<List<GenreProjection>> mostPopularGenres(
             @Parameter(description = "ID do Gênero") @RequestParam Long genreId) {
 
         log.info("Contando filmes por gênero: {}", genreId);
         return ResponseEntity.ok(service.getMostPopularGenres());
-    }
-
-    @GetMapping("/popularity-growth")
-    @Operation(summary = GENRE_POPULARITY_SUMMARY, description = GENRE_POPULARITY_DESCRIPTION)
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = GENRE_POPULARITY_RESPONSE_200),
-            @ApiResponse(responseCode = "404", description = GENRE_POPULARITY_RESPONSE_404),
-    })
-    public ResponseEntity<Map<String, Long>> countGenresHighestPopularity(
-            @Parameter(description = "Ano atual") @RequestParam Integer currentYear,
-            @Parameter(description = "Ano anterior") @RequestParam Integer previousYear) {
-
-        log.info("Contando gêneros com maior crescimento de popularidade: {} e {}", currentYear, previousYear);
-        return ResponseEntity.ok(service.countGenresHighestPopularityGrowth(currentYear, previousYear));
     }
 }

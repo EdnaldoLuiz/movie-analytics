@@ -57,6 +57,18 @@ public class GenreController {
         return ResponseEntity.ok(service.countTotalGenres());
     }
 
+    @GetMapping("/vote-average")
+    @Operation(summary = GENRE_VOTE_AVERAGE_SUMMARY, description = GENRE_VOTE_AVERAGE_DESCRIPTION)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = GENRE_VOTE_AVERAGE_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = GENRE_VOTE_AVERAGE_RESPONSE_404),
+    })
+    public ResponseEntity<Map<String, Double>> countVoteAverage() {
+    
+        log.info("Calculando a média de votos por gênero");
+        return ResponseEntity.ok(service.countGenresWithHighestAverageVotes());
+    }
+
     @GetMapping("/popular-genres")
     @Operation(summary = GENRE_POPULARITY_SUMMARY, description = GENRE_POPULARITY_DESCRIPTION)
     @ApiResponses(value = {

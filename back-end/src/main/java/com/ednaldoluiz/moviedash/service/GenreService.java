@@ -1,5 +1,6 @@
 package com.ednaldoluiz.moviedash.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,12 +31,35 @@ public class GenreService {
 
     @Cacheable(cacheNames = GENRE_CACHE + "total", key = "{'total'}")
     public Map<String, Long> countTotalGenres() {
-        return genreRepository.findGenresWithMoreThanOneMovie().stream()
-                .collect(Collectors.toMap(o -> (String) o[0], o -> (Long) o[1]));
+        return convertToMap(
+                genreRepository.findGenresWithMoreThanOneMovie(), Long.class);
     }
 
-    @Cacheable(cacheNames = GENRE_CACHE + "popularity", key = "{'total'}")
+    @Cacheable(cacheNames = GENRE_CACHE + "vote_average", key = "{'averageVotes'}")
+    public Map<String, Double> countGenresWithHighestAverageVotes() {
+        return convertToMap(
+            genreRepository.findGenresWithHighestAverageVotes(), Double.class);
+    }
+
+    @Cacheable(cacheNames = GENRE_CACHE + "popularity", key = "{'popularity'}")
     public List<GenreProjection> getMostPopularGenres() {
         return genreRepository.findMostPopularGenres();
+    }
+
+    /**
+     * Este método converte uma lista de array de objetos em um map de valor
+     * generico.
+     * 
+     * @param list a lista de array de objetos
+     * @param type o tipo de valor do map
+     * 
+     * @return um map com os valores convertidos
+     */
+
+    private <T> Map<String, T> convertToMap(Collection<Object[]> list, Class<T> type) {
+        log.info("Tipo: {}", type.getSimpleName());
+        return list.stream()
+                .collect(Collectors.toMap(
+                        object -> (String) object[0], object -> type.cast(object[1])));
     }
 }

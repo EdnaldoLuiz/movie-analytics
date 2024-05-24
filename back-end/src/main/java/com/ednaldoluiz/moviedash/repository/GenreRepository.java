@@ -12,6 +12,9 @@ import com.ednaldoluiz.moviedash.repository.projection.GenreProjection;
 @Repository
 public interface GenreRepository extends JpaRepository<Genre, Long> {
 
+    @Query("SELECT g.name as name, COUNT(m) as quantity FROM Genre g INNER JOIN g.movies m GROUP BY g.name ORDER BY quantity DESC")
+    List<GenreProjection> findMostPopularGenres();
+
     @Query("""
             SELECT g.name as name, COUNT(m) as quantity,
             (SELECT COUNT(m2) FROM Movie m2) as total
@@ -31,7 +34,13 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
                 """)
     List<Object[]> findGenresWithMoreThanOneMovie();
 
-    @Query("SELECT g.name as name, COUNT(m) as quantity FROM Genre g INNER JOIN g.movies m GROUP BY g.name ORDER BY quantity DESC")
-    List<GenreProjection> findMostPopularGenres();
+    @Query("""
+            SELECT g.name as genre, ROUND(AVG(m.voteAverage), 2) as averageVotes
+            FROM Genre g
+            INNER JOIN g.movies m
+            GROUP BY g.name
+            ORDER BY averageVotes DESC
+            """)
+    List<Object[]> findGenresWithHighestAverageVotes();
 
 }

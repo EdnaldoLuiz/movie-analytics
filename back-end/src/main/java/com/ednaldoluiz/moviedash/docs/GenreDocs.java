@@ -19,12 +19,22 @@ public final class GenreDocs {
     public static final String GENRE_TOTAL_RESPONSE_404 = "Nenhum gênero encontrado";
 
     /**
-     * ------------------------- Count de Gêneros Mais Populares -------------------------
+     * ------------------------- Count de Gêneros Mais Populares
+     * -------------------------
      */
 
     public static final String GENRE_POPULARITY_SUMMARY = "Contar os Gêneros Mais Populares";
     public static final String GENRE_POPULARITY_RESPONSE_200 = "Gêneros mais populares retornados com sucesso";
     public static final String GENRE_POPULARITY_RESPONSE_404 = "Nenhum gênero popular encontrado";
+
+    /**
+     * ------------------------- Count de Média de Votos por Gênero
+     * -------------------------
+     */
+
+    public static final String GENRE_VOTE_AVERAGE_SUMMARY = "Contar a Média de Votos por Gênero";
+    public static final String GENRE_VOTE_AVERAGE_RESPONSE_200 = "Média de votos por gênero retornada com sucesso";
+    public static final String GENRE_VOTE_AVERAGE_RESPONSE_404 = "Nenhum gênero encontrado para calcular a média de votos";
 
     /**
      * ------------------------- Controller de Gêneros -------------------------
@@ -57,6 +67,13 @@ public final class GenreDocs {
             + "<hr>"
             + "<ul>"
             + "<li><p>Se nenhum gênero for encontrado, uma mensagem será retornada.</p></li>"
+            + "</ul>";
+
+    public static final String GENRE_VOTE_AVERAGE_DESCRIPTION = "<h2>Este endpoint conta a média de votos por gênero.</h2>"
+            + "<h3>Observações:</h3>"
+            + "<hr>"
+            + "<ul>"
+            + "<li><p>Se nenhum gênero for encontrado para calcular a média de votos, uma mensagem será retornada.</p></li>"
             + "</ul>";
 
     public static final String GENRE_POPULARITY_DESCRIPTION = "<h2>Este endpoint conta os gêneros mais populares.</h2>"

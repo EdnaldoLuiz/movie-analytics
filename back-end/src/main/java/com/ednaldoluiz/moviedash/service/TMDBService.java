@@ -50,8 +50,18 @@ public class TMDBService {
         }
     }
 
+    @Transactional
+    public void deleteAllMovies(List<Long> genreIds) {
+        if(genreIds == null || genreIds.isEmpty()) {
+            log.info("Deletando todos os filmes");
+            movieRepository.deleteAll();
+        }
+        log.info("Deletando todos os filmes por gênero: {}", genreIds);
+        movieRepository.deleteAllByGenresIdIn(genreIds);
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = MovieProcessingException.class)
-    private void processResults(List<MovieRequestDTO> results) {
+    protected void processResults(List<MovieRequestDTO> results) {
         cacheEvictManager.evictAllCaches();
         results.forEach(this::processMovie);
     }

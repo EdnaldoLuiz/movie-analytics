@@ -2,6 +2,7 @@ package com.ednaldoluiz.moviedash.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,13 +33,22 @@ public class TMDBController {
     private final TMDBService service;
 
     @GetMapping("/fetch")
-    @Operation(summary = TMDB_SUMMARY, description = TMDB_FETCH_DATA)
+    @Operation(summary = TMDB_FETCH_SUMMARY, description = TMDB_FETCH_DATA)
     public ResponseEntity<Void> fetchTmdbData(
         @Parameter(description = "Numero de páginas") @RequestParam(defaultValue = PAGE_NUMBER) Integer pages,
         @Parameter(description = "Gêneros") @RequestParam(required = false) List<Long> genres) {
             
         log.info("Gêneros: {}", genres);
         service.fetchTmdbData(pages, genres);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete")
+    @Operation(summary = TMDB_DELETE_SUMMARY, description = TMDB_DELETE_DATA)
+    public ResponseEntity<Void> deleteAllMovies(
+        @Parameter(description = "Gêneros") @RequestParam(required = false) List<Long> genreIds) {
+        log.info("Deletando filmes por gênero: {}", genreIds);
+        service.deleteAllMovies(genreIds);
         return ResponseEntity.ok().build();
     }
 }

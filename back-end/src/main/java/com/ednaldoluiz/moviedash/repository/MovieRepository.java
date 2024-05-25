@@ -17,6 +17,8 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     Optional<Movie> findByTitle(String title);
 
+    void deleteAllByGenresIdIn(List<Long> genreIds);
+
     @Query("""
                 SELECT m.title as title, m.voteAverage as voteAverage, m.releaseDate as releaseDate
                 FROM Movie m

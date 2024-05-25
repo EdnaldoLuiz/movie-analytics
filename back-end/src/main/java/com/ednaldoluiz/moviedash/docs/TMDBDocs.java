@@ -2,13 +2,16 @@ package com.ednaldoluiz.moviedash.docs;
 
 public final class TMDBDocs {
 
-    public static final String TMDB_SUMMARY = "Salvar filmes da API do TMDB";
+    public static final String TMDB_FETCH_SUMMARY = "Salvar filmes da API do TMDB";
+    
+    public static final String TMDB_DELETE_SUMMARY = "Deletar todos os filmes";
 
     public static final String TMDB_CONTROLLER_NAME = "Controller de Consumir Filmes";
 
     public static final String TMDB_CONTROLLER_DESCRIPTION = "<h3>Este controlador é responsável por realizar operações relacionadas ao <b>TMDB</b></h3>"
             + "<ul>"
             +   "<li>Fornece um endpoint para buscar e salvar dados do TMDB.</li>"
+            +   "<li>Fornece um endpoint para remoção de filmes da base de dados.</li>"
             + "</ul>";
 
     public static final String TMDB_FETCH_DATA = "<h2>Este endpoint busca e salva dados do TMDB.</h2>"
@@ -53,5 +56,18 @@ public final class TMDBDocs {
             + "<ul>"
             +   "<li><p>Os dados são buscados do TMDB e salvos no banco de dados local.</p></li>"
             +   "<li><p>Se nenhum ID de Gênero for informado, será buscado por todos.</p></li>"
+            + "</ul>";
+
+    public static final String TMDB_DELETE_DATA = "<h2>Este endpoint deleta todos os filmes de acordo com o genero informado ou todos os filmes se nenhum genero for informado.</h2>"
+            + "<h3>Parâmetros:</h3>"
+            + "<hr>"
+            + "<ul>"
+            +   "<li><p><b>Ids dos Gêneros</b>: Uma lista com os Ids dos Gêneros.</p></li>"
+            + "</ul>"
+            + "<h3>Observações:</h3>"
+            + "<hr>"
+            + "<ul>"
+            +   "<li><p>Se nenhum valor for informado na lista, todos os filmes serão deletados.</p></li>"
+            +   "<li><p>Não é possivel recuperar os filmes deletados.</p></li>"
             + "</ul>";
 }

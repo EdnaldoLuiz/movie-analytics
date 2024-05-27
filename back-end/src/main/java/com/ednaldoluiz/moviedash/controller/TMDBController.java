@@ -35,7 +35,7 @@ public class TMDBController {
     @GetMapping("/fetch")
     @Operation(summary = TMDB_FETCH_SUMMARY, description = TMDB_FETCH_DATA)
     public ResponseEntity<Void> fetchTmdbData(
-        @Parameter(description = "Numero de páginas") @RequestParam(defaultValue = PAGE_NUMBER) Integer pages,
+        @Parameter(description = "Numero de páginas (20 Filmes por página)") @RequestParam(defaultValue = PAGE_NUMBER) Integer pages,
         @Parameter(description = "Gêneros") @RequestParam(required = false) List<Long> genres) {
             
         log.info("Gêneros: {}", genres);

@@ -15,6 +15,9 @@ import com.ednaldoluiz.moviedash.repository.projection.MovieProjection;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
+    @Query("SELECT m FROM Movie m JOIN FETCH m.genres")
+    List<Movie> findAllWithGenres();
+
     Optional<Movie> findByTitle(String title);
 
     void deleteAllByGenresIdIn(List<Long> genreIds);

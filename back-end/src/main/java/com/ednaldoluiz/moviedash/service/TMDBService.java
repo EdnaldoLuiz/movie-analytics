@@ -43,7 +43,8 @@ public class TMDBService {
 
             try {
                 MoviePageDTO moviePage = restTemplate.getForObject(url, MoviePageDTO.class);
-                if(Objects.nonNull(moviePage)) processResults(moviePage.results());
+                if (Objects.nonNull(moviePage))
+                    processResults(moviePage.results());
             } catch (RestClientException e) {
                 log.error("Erro na busca por dados: {}", e);
             }
@@ -52,7 +53,7 @@ public class TMDBService {
 
     @Transactional
     public void deleteAllMovies(List<Long> genreIds) {
-        if(genreIds == null || genreIds.isEmpty()) {
+        if (genreIds == null || genreIds.isEmpty()) {
             log.info("Deletando todos os filmes");
             movieRepository.deleteAll();
         }
@@ -71,12 +72,13 @@ public class TMDBService {
                 result.title(), result.releaseDate(), result.genreIds());
 
         movieRepository.findByTitle(result.title())
-        .orElseGet(() -> {
-            Movie movie = new Movie(result);
-            movie.setGenres(result.genreIds().stream()
-                    .map(genreId -> genreRepository.findById(genreId)
-                    .orElseGet(Genre::new)).toList());
-            return movieRepository.save(movie);
-        });
+                .orElseGet(() -> {
+                    Movie movie = new Movie(result);
+                    movie.setGenres(result.genreIds().stream()
+                            .map(genreId -> genreRepository.findById(genreId)
+                                    .orElseGet(Genre::new))
+                            .toList());
+                    return movieRepository.save(movie);
+                });
     }
 }

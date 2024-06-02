@@ -33,6 +33,7 @@ public class SwaggerConfig {
     + "<ul>"
     +   "<li><strong>Consultar filmes:</strong> Os usuários podem pesquisar filmes por vários critérios, incluindo título, gênero, ano de lançamento, entre outros.</li>"
     +   "<li><strong>Consultar gêneros:</strong> A API fornece informações detalhadas sobre diferentes gêneros, incluindo a quantidade de filmes por gênero.</li>"
+    +   "<li><strong>Exportar dados:</strong> Os usuários podem exportar dados de filmes para arquivos CSV ou Excel, facilitando a análise e visualização dos dados.</li>"
     +   "<li><strong>Analisar estatísticas de popularidade:</strong> A API permite aos usuários realizar análises de crescimento de popularidade por gênero. Isso pode ser útil para identificar tendências e padrões na indústria cinematográfica.</li>"
     + "</ul>"
     + "<p>A API é projetada com uma arquitetura limpa e fácil de usar. Ela fornece endpoints bem documentados e seguros, permitindo aos usuários acessar facilmente as informações de que precisam.</p>";

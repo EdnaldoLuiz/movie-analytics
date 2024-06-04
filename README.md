@@ -1,5 +1,28 @@
 
 
+
+<h2>Strategy Pattern ♟️</h2>
+
+### Padrão de Projeto Strategy
+
+No projeto utilizamos o padrão de projeto Strategy para lidar com a exportação de dados de filmes para diferentes formatos de arquivo, especificamente CSV e Excel. permitindo que a logica de exportação seja selecionado em tempo de execução.
+
+### Estrutura
+
+A estrutura do padrão Strategy em nosso projeto é composta por uma interface ExportStrategy e duas classes concretas CSVExportStrategy e ExcelExportStrategy que implementam essa interface. A interface define um método export que recebe um nome de arquivo e uma lista de filmes para exportar.
+
+<div align=center>
+    <img width=500px src="https://github.com/EdnaldoLuiz/movie-analytics/assets/112354693/0773a2f8-acf0-4066-ba0b-ad631d591ae4">    
+</div>
+
+As classes concretas implementam o método export de maneira específica para cada formato de arquivo. CSVExportStrategy escreve os dados em um arquivo CSV usando a biblioteca CSVWriter, enquanto ExcelExportStrategy cria uma planilha Excel usando a biblioteca XSSFWorkbook.
+
+No serviço FileExportService, temos um mapa strategies que mapeia um FileExportType (um enum que representa o tipo de arquivo) para uma instância de ExportStrategy. Isso nos permite selecionar a estratégia de exportação correta com base no tipo de arquivo desejado em tempo de execução.
+
+### Por que o Padrão Strategy?
+
+Ele oferece uma maneira flexível de selecionar um algoritmo em tempo de execução. Isso nos permite adicionar facilmente suporte para novos formatos de arquivo no futuro, simplesmente adicionando novas classes que implementam a interface ExportStrategy e adicionando-as ao Map no serviço, promovendo a separação de preocupações e tornando o código mais testável, pois cada estratégia de exportação pode ser testada isoladamente.
+
 <h2 id="api-rest">API Rest 🌐</h2>
 
 ### TMDB Controller
@@ -9,7 +32,6 @@
         <tr>
             <th>Endpoint</th>
             <th>Método</th>
-            <th>Status</th>
             <th>Response</th>
             <th>Descrição</th>
         </tr>
@@ -18,9 +40,14 @@
         <tr>
             <td>/api/v1/tmdb/fetch</td>
             <td>GET</td>
-            <td>200</td>
-            <td></td>
+            <td>Void</td>
             <td>Salvar filmes da API do TMDB no banco de dados local</td>
+        </tr>
+        <tr>
+            <td>/api/v1/tmdb/delete</td>
+            <td>DELETE</td>
+            <td>Void</td>
+            <td>Deletar todos os filmes de gêneros específicos</td>
         </tr>
     </tbody>
 </table>
@@ -32,7 +59,6 @@
         <tr>
             <th>Endpoint</th>
             <th>Método</th>
-            <th>Status</th>
             <th>Response</th>
             <th>Descrição</th>
         </tr>
@@ -41,16 +67,26 @@
         <tr>
             <td>/api/v1/genres/count</td>
             <td>GET</td>
-            <td>200</td>
             <td>GenreProjection</td>
             <td>Contar a Quantidade de Filmes por Gênero</td>
         </tr>
         <tr>
             <td>/api/v1/genres/total</td>
             <td>GET</td>
-            <td>200</td>
             <td>Map&lt;String, Long&gt;</td>
             <td>Contar a Quantidade Total de Gêneros</td>
+        </tr>
+        <tr>
+            <td>/api/v1/genres/vote-average</td>
+            <td>GET</td>
+            <td>Map&lt;String, Double&gt;</td>
+            <td>Calcular a média de votos por gênero</td>
+        </tr>
+        <tr>
+            <td>/api/v1/genres/popular-genres</td>
+            <td>GET</td>
+            <td>List&lt;GenreProjection&gt;</td>
+            <td>Obter os gêneros mais populares</td>
         </tr>
     </tbody>
 </table>
@@ -62,7 +98,6 @@
         <tr>
             <th>Endpoint</th>
             <th>Método</th>
-            <th>Status</th>
             <th>Response</th>
             <th>Descrição</th>
         </tr>
@@ -71,30 +106,47 @@
         <tr>
             <td>/api/v1/movies/all</td>
             <td>GET</td>
-            <td>200</td>
             <td>Page&lt;MovieResponseDTO&gt;</td>
             <td>Buscar todos os Filmes com Paginação</td>
         </tr>
         <tr>
             <td>/api/v1/movies/top10</td>
             <td>GET</td>
-            <td>200</td>
             <td>Page&lt;MovieResponseDTO&gt;</td>
             <td>Buscar uma Página com o Top 10 de Filmes</td>
         </tr>
         <tr>
             <td>/api/v1/movies/top5</td>
             <td>GET</td>
-            <td>200</td>
             <td>Page&lt;MovieResponseDTO&gt;</td>
             <td>Buscar uma Página com o Top 5 Filmes por Ano</td>
         </tr>
         <tr>
             <td>/api/v1/movies/search</td>
             <td>GET</td>
-            <td>200</td>
             <td>Page&lt;Movie&gt;</td>
             <td>Buscar todos os Filmes com Paginação</td>
+        </tr>
+    </tbody>
+</table>
+
+### File Export Controller
+
+<table align=center>
+    <thead>
+        <tr>
+            <th>Endpoint</th>
+            <th>Método</th>
+            <th>Response</th>
+            <th>Descrição</th>
+        </tr>
+    </thead>
+    <tbody align=center>
+        <tr>
+            <td>/api/v1/file-export/export</td>
+            <td>GET</td>
+            <td>Resource</td>
+            <td>Exportar dados de filmes para um arquivo</td>
         </tr>
     </tbody>
 </table>
@@ -194,6 +246,25 @@ Biblioteca utilizada para acesso o armazenamento em cache com Redis:
 </dependency>
 ```
 
+### Exportar Arquivos 📁
+
+Bibliotecas utilizadas para a exportação de arquivos CSV e Excel:
+
+```xml
+<!-- CSV -->
+<dependency>
+    <groupId>com.opencsv</groupId>
+    <artifactId>opencsv</artifactId>
+    <version>5.6</version>
+</dependency>
+<!-- Excel -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>5.2.5</version>
+</dependency>
+```
+
 ### Docker Compose 🐳
 
 Biblioteca utilizada para facilitar a inicialização do docker-compose ao iniciar um projeto Spring:
@@ -215,11 +286,6 @@ Bibliotecas utilizadas para documentação com Springdoc OpenAPI e visualizaçã
     <groupId>org.springdoc</groupId>
     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
     <version>2.3.0</version>
-</dependency>
-<dependency>
-    <groupId>org.springdoc</groupId>
-    <artifactId>springdoc-openapi-ui</artifactId>
-    <version>1.5.12</version>
 </dependency>
 <dependency>
     <groupId>org.springdoc</groupId>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ednaldoluiz.moviedash.model.Genre;
 import com.ednaldoluiz.moviedash.repository.projection.GenreProjection;
+import com.ednaldoluiz.moviedash.repository.projection.genre.PopularMoviesByGenreProjection;
 
 @Repository
 public interface GenreRepository extends JpaRepository<Genre, Long> {
@@ -24,6 +25,17 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
             GROUP BY g.name
             """)
     GenreProjection countByGenresId(Long genreId);
+
+    @Query("""
+            SELECT new com.ednaldoluiz.moviedash.repository.projection.genre.PopularMoviesByGenreProjection(
+                g.name, g.id, m.title, m.popularity
+            )
+            FROM Genre g
+            INNER JOIN g.movies m
+            WHERE (:genre = 0 OR g.id = :genre)
+            ORDER BY m.popularity DESC
+            """)
+    List<PopularMoviesByGenreProjection> findMostPopularMoviesByGenre(Long genre);
 
     @Query("""
             SELECT g.name as name, COUNT(m) as quantity

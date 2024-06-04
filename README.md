@@ -1,27 +1,41 @@
 
+## Índice
 
+- [🖥️ Configurações do Servidor](#configurações-do-servidor)
+- [🌐 API Rest](#api-rest)
+- [♟️ Padrão de Projeto Strategy](#padrão-de-projeto-strategy)
+- [🔗 Modelo Relacional](#modelo-relacional)
+- [📚 Principais Dependências](#principais-dependências)
+- [🛠️ Tech Stack Utilizada](#tech-stack-utilizada)
 
-<h2>Strategy Pattern ♟️</h2>
+<h2 id="configurações-do-servidor">Configurações do Servidor 🖥️</h2>
 
-### Padrão de Projeto Strategy
-
-No projeto utilizamos o padrão de projeto Strategy para lidar com a exportação de dados de filmes para diferentes formatos de arquivo, especificamente CSV e Excel. permitindo que a logica de exportação seja selecionado em tempo de execução.
-
-### Estrutura
-
-A estrutura do padrão Strategy em nosso projeto é composta por uma interface ExportStrategy e duas classes concretas CSVExportStrategy e ExcelExportStrategy que implementam essa interface. A interface define um método export que recebe um nome de arquivo e uma lista de filmes para exportar.
-
-<div align=center>
-    <img width=500px src="https://github.com/EdnaldoLuiz/movie-analytics/assets/112354693/0773a2f8-acf0-4066-ba0b-ad631d591ae4">    
-</div>
-
-As classes concretas implementam o método export de maneira específica para cada formato de arquivo. CSVExportStrategy escreve os dados em um arquivo CSV usando a biblioteca CSVWriter, enquanto ExcelExportStrategy cria uma planilha Excel usando a biblioteca XSSFWorkbook.
-
-No serviço FileExportService, temos um mapa strategies que mapeia um FileExportType (um enum que representa o tipo de arquivo) para uma instância de ExportStrategy. Isso nos permite selecionar a estratégia de exportação correta com base no tipo de arquivo desejado em tempo de execução.
-
-### Por que o Padrão Strategy?
-
-Ele oferece uma maneira flexível de selecionar um algoritmo em tempo de execução. Isso nos permite adicionar facilmente suporte para novos formatos de arquivo no futuro, simplesmente adicionando novas classes que implementam a interface ExportStrategy e adicionando-as ao Map no serviço, promovendo a separação de preocupações e tornando o código mais testável, pois cada estratégia de exportação pode ser testada isoladamente.
+<table>
+  <thead>
+    <tr>
+      <th>Servidor</th>
+      <th>Descrição</th>
+      <th>Endereço</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Servidor Local</strong></td>
+      <td>Este é o servidor que você normalmente usaria durante o desenvolvimento. Ele é executado na sua máquina local e permite que você teste suas alterações rapidamente sem ter que implantá-las em um servidor remoto.</td>
+      <td><code>http://localhost:8080</code></td>
+    </tr>
+    <tr>
+      <td><strong>Servidor Docker</strong></td>
+      <td>Este servidor é destinado para ambientes conteinerizados e é particularmente útil se você está usando Docker para desenvolvimento ou implantação.</td>
+      <td><code>http://localhost:8081</code></td>
+    </tr>
+    <tr>
+      <td><strong>Servidor de Produção</strong></td>
+      <td>Este é o servidor onde sua aplicação é executada no ambiente de produção. Ele é configurado para lidar com tráfego real e é otimizado para desempenho e confiabilidade.</td>
+      <td><code>http://localhost:8082</code></td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="api-rest">API Rest 🌐</h2>
 
@@ -151,34 +165,66 @@ Ele oferece uma maneira flexível de selecionar um algoritmo em tempo de execuç
     </tbody>
 </table>
 
-<h2>Modelo Relacional</h2>
+<h2 id="padrão-de-projeto-strategy">Strategy Pattern ♟️</h2>
+
+### Padrão de Projeto Strategy
+
+No projeto utilizamos o padrão de projeto Strategy para lidar com a exportação de dados de filmes para diferentes formatos de arquivo, especificamente CSV e Excel. permitindo que a logica de exportação seja selecionado em tempo de execução.
+
+### Estrutura
+
+A estrutura do padrão Strategy em nosso projeto é composta por uma interface ExportStrategy e duas classes concretas CSVExportStrategy e ExcelExportStrategy que implementam essa interface. A interface define um método export que recebe um nome de arquivo e uma lista de filmes para exportar.
+
+<div align=center>
+    <img width=500px src="https://github.com/EdnaldoLuiz/movie-analytics/assets/112354693/0773a2f8-acf0-4066-ba0b-ad631d591ae4">    
+</div>
+
+As classes concretas implementam o método export de maneira específica para cada formato de arquivo. CSVExportStrategy escreve os dados em um arquivo CSV usando a biblioteca CSVWriter, enquanto ExcelExportStrategy cria uma planilha Excel usando a biblioteca XSSFWorkbook.
+
+No serviço FileExportService, temos um mapa strategies que mapeia um FileExportType (um enum que representa o tipo de arquivo) para uma instância de ExportStrategy. Isso nos permite selecionar a estratégia de exportação correta com base no tipo de arquivo desejado em tempo de execução.
+
+### Por que o Padrão Strategy?
+
+Ele oferece uma maneira flexível de selecionar um algoritmo em tempo de execução. Isso nos permite adicionar facilmente suporte para novos formatos de arquivo no futuro, simplesmente adicionando novas classes que implementam a interface ExportStrategy e adicionando-as ao Map no serviço, promovendo a separação de preocupações e tornando o código mais testável, pois cada estratégia de exportação pode ser testada isoladamente.
+
+<h2 id="modelo-relacional">Modelo Relacional</h2>
+
+No projeto, temos um relacionamento muitos-para-muitos entre Movie (Filme) e Genre (Gênero). Isso significa que um filme pode pertencer a vários gêneros e um gênero pode ser associado a vários filmes.
+
+### Estrutura
+A estrutura desse relacionamento em nosso projeto é representada por três tabelas no banco de dados: movies, genres e movie_genres. A tabela movie_genres é uma tabela de junção que resolve o relacionamento muitos-para-muitos entre movies e genres.
 
 ```mermaid
-classDiagram
-direction LR
-    class Genre {
-        - id: Long
-        - name: String
-        - movies: List&lt;Movie&gt
+erDiagram
+    MOVIE ||--|{ MOVIE_GENRE : possui
+    GENRE ||--|{ MOVIE_GENRE : possui
+    MOVIE {
+        SERIAL id PK
+        BOOLEAN adult
+        TEXT description
+        VARCHAR(2) language
+        DECIMAL popularity
+        TEXT poster
+        DATE releaseDate
+        VARCHAR(255) title
+        BOOLEAN video
+        DECIMAL voteAverage
+        INT voteCount
     }
-
-    class Movie {
-        - id: Long
-        - adult: Boolean
-        - poster: String
-        - language: String
-        - title: String
-        - description: String
-        - popularity: Double
-        - releaseDate: LocalDate
-        - video: Boolean
-        - voteAverage: Double
-        - voteCount: Integer
-        - genres: List&lt;Genre&gt
+    GENRE {
+        SERIAL id PK
+        VARCHAR(255) name
     }
-
-    Genre "1..*" -- "0..*" Movie : classificado como
+    MOVIE_GENRE {
+        INT movie_id FK
+        INT genre_id FK
+    }
 ```
+
+### Por que esse modelo?
+Esse modelo de dados nos permite representar de forma eficiente a relação entre filmes e gêneros. Ele também facilita consultas complexas, como encontrar todos os filmes de um determinado gênero ou encontrar todos os gêneros de um determinado filme.
+
+Além disso, a tabela de junção movie_genres permite que mantenhamos a integridade dos dados, garantindo que cada combinação de filme e gênero seja única.
 
 <h2 id="principais-bibliotecas">Principais Dependências 📚</h2>
 
@@ -294,8 +340,7 @@ Bibliotecas utilizadas para documentação com Springdoc OpenAPI e visualizaçã
 </dependency>
 ```
 
-
-<h2>Tech Stack Utilizada 🛠️</h2>
+<h2 id="tech-stack">Tech Stack Utilizada 🛠️</h2>
 
 <table align="center" width=1000px>
     <thead>

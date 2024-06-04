@@ -43,7 +43,7 @@ public class SwaggerConfig {
     static {
         SERVERS.put(LOCALHOST + 8080, "Servidor Local");
         SERVERS.put(LOCALHOST + 8081, "Servidor Docker");
-        SERVERS.put(LOCALHOST + 8082, "Servidor Lrodução");
+        SERVERS.put(LOCALHOST + 8082, "Servidor Produção");
     }
 
     @Bean

@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import static com.ednaldoluiz.moviedash.constant.APIConstants.API_V1;
+import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
 import static com.ednaldoluiz.moviedash.utils.APIUtils.PAGE_NUMBER;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(value = API_V1 + "tmdb", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = API_V1 + TMDB, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Tag(name = TMDB_CONTROLLER_NAME, description = TMDB_CONTROLLER_DESCRIPTION)
 public class TMDBController {

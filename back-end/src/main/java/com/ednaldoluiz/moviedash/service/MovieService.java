@@ -1,12 +1,11 @@
 package com.ednaldoluiz.moviedash.service;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,7 @@ import static com.ednaldoluiz.moviedash.constant.CacheConstants.*;
 import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
 import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.repository.MovieRepository;
+import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
 import com.ednaldoluiz.moviedash.service.MovieService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @CacheConfig(cacheNames = MOVIE_CACHE)
 @RequiredArgsConstructor
-public class MovieService {
+public class MovieService extends AbstractService {
 
     private final MovieRepository repository;
 
@@ -54,25 +54,19 @@ public class MovieService {
         return convertPage(repository.findTop5ByGenreAndVoteAverageInYear(pageable, genreIds, year), MovieResponseDTO::new);
     }
 
+    @Cacheable(
+        cacheNames = "year", 
+        key = "{'year'}", 
+        unless = "#result.size() < 5")
+    public List<MoviesCountByYearProjection> findMoviesCountByYear() {
+        log.info("Contando filmes por ano");
+        List<MoviesCountByYearProjection> moviesCountByYear = repository.findMoviesCountByYear();
+        moviesCountByYear.sort(Comparator.comparing(MoviesCountByYearProjection::year));
+        return moviesCountByYear;
+    }
+
     public Page<Movie> findMoviesByTitle(String keyword, Pageable pageable) {
         log.info("Buscando por: {}", keyword);
         return repository.findByTitleContainingIgnoreCase(keyword, pageable);
-    }
-
-    /**
-     * Este método converte uma página de projeções em uma página de DTOs de forma generica.
-     * 
-     * @param page      a página de projeções
-     * @param converter a função de conversão de projeção para DTO  
-     *            
-     * @return a página de DTOs
-     */
-
-    private <PROJECTION, DTO> Page<DTO> convertPage(Page<PROJECTION> page, Function<PROJECTION, DTO> converter) {
-        List<DTO> content = page.getContent()
-            .stream()
-            .map(converter)
-            .toList();
-        return new PageImpl<>(content, page.getPageable(), page.getTotalElements());
     }
 }

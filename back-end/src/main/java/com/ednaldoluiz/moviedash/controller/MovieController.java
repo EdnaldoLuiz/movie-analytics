@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
 import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.model.enums.MovieSortType;
+import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
 import com.ednaldoluiz.moviedash.service.MovieService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +52,7 @@ public class MovieController {
             @Parameter(description = "Número da Página") @Min(1) @RequestParam(defaultValue = PAGE_NUMBER) int page,
             @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size,
             @Parameter(description = "Campo de Ordenação") @RequestParam(defaultValue = SORT_DEFAULT) MovieSortType sort) {
-                    
+
         log.info("Listando todos os filmes na página {} com tamanho de {} ordenado por {}", page, size, sort);
         Pageable pageable = PageRequest.of(page - 1, size, getSort(sort, "ASC"));
         return ResponseEntity.ok(service.findAllMovies(pageable));
@@ -84,6 +85,18 @@ public class MovieController {
         log.info("Listando os 5 melhores filmes por gênero no ano de {}: {}", year, genreIds);
         Pageable pageable = PageRequest.of(0, 5, Sort.by(SORT_DEFAULT).descending());
         return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
+    }
+
+    @GetMapping("/year")
+    @Operation(summary = MOVIE_YEAR_SUMMARY, description = MOVIE_YEAR)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = MOVIE_YEAR_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = MOVIE_YEAR_RESPONSE_404),
+    })
+    public ResponseEntity<List<MoviesCountByYearProjection>> moviesByYear(
+            @Parameter(description = "Ano de Lançamento") @RequestParam(required = false) Integer year) {
+
+        return ResponseEntity.ok(service.findMoviesCountByYear(year));
     }
 
     @GetMapping("/search")

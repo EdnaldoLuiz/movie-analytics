@@ -37,6 +37,15 @@ public final class GenreDocs {
     public static final String GENRE_VOTE_AVERAGE_RESPONSE_404 = "Nenhum gênero encontrado para calcular a média de votos";
 
     /**
+     * ------------------------- Count de Popularidade por Gênero
+     * -------------------------
+     */
+
+    public static final String GENRE_POPULAR_MOVIES_SUMMARY = "Obter os Filmes Mais Populares por Gênero";
+    public static final String GENRE_POPULAR_MOVIES_RESPONSE_200 = "Filmes mais populares por gênero retornados com sucesso";
+    public static final String GENRE_POPULAR_MOVIES_RESPONSE_404 = "Nenhum filme popular encontrado para o gênero solicitado";
+
+    /**
      * ------------------------- Controller de Gêneros -------------------------
      */
 
@@ -81,6 +90,18 @@ public final class GenreDocs {
             + "<hr>"
             + "<ul>"
             + "<li><p>Se nenhum gênero popular for encontrado, uma mensagem será retornada.</p></li>"
+            + "</ul>";
+
+    public static final String GENRE_POPULAR_MOVIES_DESCRIPTION = "<h2>Este endpoint retorna os filmes mais populares por gênero.</h2>"
+            + "<h3>Parâmetros de Busca:</h3>"
+            + "<hr>"
+            + "<ul>"
+            + "<li><p><b>Gênero</b>: Gênero para a consulta. </p></li>"
+            + "</ul>"
+            + "<h3>Observações:</h3>"
+            + "<hr>"
+            + "<ul>"
+            + "<li><p>Se nenhum filme popular for encontrado para o gênero solicitado, uma mensagem será retornada.</p></li>"
             + "</ul>";
 
 }

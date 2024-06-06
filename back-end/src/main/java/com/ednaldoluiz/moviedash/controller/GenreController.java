@@ -1,6 +1,7 @@
 package com.ednaldoluiz.moviedash.controller;
 
 import static com.ednaldoluiz.moviedash.constant.APIConstants.*;
+import static com.ednaldoluiz.moviedash.docs.GenreDocs.*;
 
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.ednaldoluiz.moviedash.docs.GenreDocs.*;
+import com.ednaldoluiz.moviedash.model.enums.GenreType;
 import com.ednaldoluiz.moviedash.repository.projection.GenreProjection;
+import com.ednaldoluiz.moviedash.repository.projection.genre.PopularMoviesByGenreProjection;
 import com.ednaldoluiz.moviedash.service.GenreService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,5 +82,18 @@ public class GenreController {
 
         log.info("Contando filmes por gênero: {}", genreId);
         return ResponseEntity.ok(service.getMostPopularGenres());
+    }
+
+    @GetMapping("/popular-movies")
+    @Operation(summary = GENRE_POPULAR_MOVIES_SUMMARY, description = GENRE_POPULAR_MOVIES_DESCRIPTION)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = GENRE_POPULAR_MOVIES_RESPONSE_200),
+            @ApiResponse(responseCode = "404", description = GENRE_POPULAR_MOVIES_RESPONSE_404),
+    })
+    public ResponseEntity<List<PopularMoviesByGenreProjection>> mostPopularMovies(
+            @Parameter(description = "Gênero") @RequestParam GenreType genre) {
+
+        log.info("Buscando filmes mais populares por gênero: {}", genre);
+        return ResponseEntity.ok(service.getMostPopularMoviesByGenre(genre.getValue()));
     }
 }

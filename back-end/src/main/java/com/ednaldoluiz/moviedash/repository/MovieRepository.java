@@ -51,8 +51,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
                 YEAR(m.releaseDate) as year, COUNT(m.id) as movieCount
             )
             FROM Movie m
+            WHERE (:year IS NULL OR YEAR(m.releaseDate) = :year)
             GROUP BY YEAR(m.releaseDate)
             """)
-    List<MoviesCountByYearProjection> findMoviesCountByYear();
+    List<MoviesCountByYearProjection> findMoviesCountByYear(Integer year);
 
 }

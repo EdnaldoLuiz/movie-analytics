@@ -56,11 +56,11 @@ public class MovieService extends AbstractService {
 
     @Cacheable(
         cacheNames = "year", 
-        key = "{'year'}", 
+        key = "{#year}", 
         unless = "#result.size() < 5")
-    public List<MoviesCountByYearProjection> findMoviesCountByYear() {
+    public List<MoviesCountByYearProjection> findMoviesCountByYear(Integer year) {
         log.info("Contando filmes por ano");
-        List<MoviesCountByYearProjection> moviesCountByYear = repository.findMoviesCountByYear();
+        List<MoviesCountByYearProjection> moviesCountByYear = repository.findMoviesCountByYear(year);
         moviesCountByYear.sort(Comparator.comparing(MoviesCountByYearProjection::year));
         return moviesCountByYear;
     }

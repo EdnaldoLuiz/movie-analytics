@@ -39,7 +39,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     Page<Movie> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
 
     @Query("""
-                SELECT m.title as title, m.voteAverage as voteAverage, m.releaseDate as releaseDate
+                SELECT new com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection(
+                    m.title, m.voteAverage, m.releaseDate
+                )
                 FROM Movie m
                 INNER JOIN m.genres g
                 WHERE g.id IN :genreIds AND YEAR(m.releaseDate) = :year

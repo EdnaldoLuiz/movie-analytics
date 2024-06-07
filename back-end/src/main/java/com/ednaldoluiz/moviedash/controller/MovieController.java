@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
 import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.model.enums.MovieSortType;
+import com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
 import com.ednaldoluiz.moviedash.service.MovieService;
 
@@ -48,7 +48,7 @@ public class MovieController {
             @ApiResponse(responseCode = "200", description = MOVIE_ALL_RESPONSE_200),
             @ApiResponse(responseCode = "404", description = MOVIE_ALL_RESPONSE_404),
     })
-    public ResponseEntity<Page<MovieResponseDTO>> allMovies(
+    public ResponseEntity<Page<MovieProjection>> allMovies(
             @Parameter(description = "Número da Página") @Min(1) @RequestParam(defaultValue = PAGE_NUMBER) int page,
             @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size,
             @Parameter(description = "Campo de Ordenação") @RequestParam(defaultValue = SORT_DEFAULT) MovieSortType sort) {
@@ -64,7 +64,7 @@ public class MovieController {
             @ApiResponse(responseCode = "200", description = MOVIE_TOP10_RESPONSE_200),
             @ApiResponse(responseCode = "404", description = MOVIE_TOP10_RESPONSE_404),
     })
-    public ResponseEntity<Page<MovieResponseDTO>> top10Movies(
+    public ResponseEntity<Page<MovieProjection>> top10Movies(
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds) {
 
         log.info("Listando os 10 melhores filmes por gênero: {}", genreIds);
@@ -78,13 +78,13 @@ public class MovieController {
             @ApiResponse(responseCode = "200", description = MOVIE_TOP5_RESPONSE_200),
             @ApiResponse(responseCode = "404", description = MOVIE_TOP5_RESPONSE_404),
     })
-    public ResponseEntity<Page<MovieResponseDTO>> top5MoviesPerYear(
+    public ResponseEntity<Page<MovieProjection>> top5MoviesPerYear(
             @Parameter(description = "IDs dos Gêneros") @RequestParam(defaultValue = "0") List<Long> genreIds,
             @Parameter(description = "Ano de Lançamento") @RequestParam Integer year) {
 
         log.info("Listando os 5 melhores filmes por gênero no ano de {}: {}", year, genreIds);
         Pageable pageable = PageRequest.of(0, 5, Sort.by(SORT_DEFAULT).descending());
-        return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
+        return ResponseEntity.ok(service.findTop5MoviesByYear(pageable, genreIds, year));
     }
 
     @GetMapping("/year")

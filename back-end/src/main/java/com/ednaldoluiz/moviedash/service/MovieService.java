@@ -10,9 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static com.ednaldoluiz.moviedash.constant.CacheConstants.*;
-import com.ednaldoluiz.moviedash.dto.response.MovieResponseDTO;
 import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.repository.MovieRepository;
+import com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
 import com.ednaldoluiz.moviedash.service.MovieService;
 
@@ -31,27 +31,27 @@ public class MovieService extends AbstractService {
         cacheNames = "all", 
         key = "{#pageable.pageNumber,#pageable.pageSize,#pageable.sort}", 
         unless = "#result.numberOfElements < 5")
-    public Page<MovieResponseDTO> findAllMovies(Pageable pageable) {
+    public Page<MovieProjection> findAllMovies(Pageable pageable) {
         log.info("Total de filmes: {}", repository.count());
-        return convertPage(repository.findAll(pageable), MovieResponseDTO::new);
+        return repository.findAll(pageable).map(MovieProjection::new);
     }
 
     @Cacheable(
         cacheNames = "top10", 
         key = "{#pageable.pageNumber,#pageable.pageSize,#pageable.sort,#genreIds}", 
         unless = "#result.numberOfElements < 5")
-    public Page<MovieResponseDTO> findTop10Movies(Pageable pageable, List<Long> genreIds) {
+    public Page<MovieProjection> findTop10Movies(Pageable pageable, List<Long> genreIds) {
         log.info("Gêneros: {}", genreIds);
-        return convertPage(repository.findTop10ByGenreAndVoteAverage(pageable, genreIds), MovieResponseDTO::new);
+        return repository.findTop10ByGenreAndVoteAverage(pageable, genreIds);
     }
 
     @Cacheable(
         cacheNames = "top5", 
         key = "{#genreIds, #year}", 
-        unless = "#result.numberOfElements == 5")
-    public Page<MovieResponseDTO> findTop5MoviesByYear(Pageable pageable, List<Long> genreIds, Integer year) {
+        unless = "#result.numberOfElements < 5")
+    public Page<MovieProjection> findTop5MoviesByYear(Pageable pageable, List<Long> genreIds, Integer year) {
         log.info("Gêneros: {}, Ano: {}", genreIds, year);
-        return convertPage(repository.findTop5ByGenreAndVoteAverageInYear(pageable, genreIds, year), MovieResponseDTO::new);
+        return repository.findTop5ByGenreAndVoteAverageInYear(pageable, genreIds, year);
     }
 
     @Cacheable(

@@ -1,9 +1,9 @@
 package com.ednaldoluiz.moviedash.repository.projection.genre;
 
-public interface GenreProjection {
+import java.io.Serializable;
 
-    String getName();
-    Integer getQuantity();
-    Integer getTotal();
-    
-}
+public record GenreProjection(
+        String name,
+        Integer quantity,
+        Integer total
+        ) implements Serializable {}

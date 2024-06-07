@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ednaldoluiz.moviedash.model.enums.GenreType;
-import com.ednaldoluiz.moviedash.repository.projection.GenreProjection;
+import com.ednaldoluiz.moviedash.repository.projection.genre.GenreProjection;
 import com.ednaldoluiz.moviedash.repository.projection.genre.PopularMoviesByGenreProjection;
 import com.ednaldoluiz.moviedash.service.GenreService;
 

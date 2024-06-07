@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import static com.ednaldoluiz.moviedash.constant.CacheConstants.*;
 
 import com.ednaldoluiz.moviedash.repository.GenreRepository;
-import com.ednaldoluiz.moviedash.repository.projection.GenreProjection;
+import com.ednaldoluiz.moviedash.repository.projection.genre.GenreProjection;
 import com.ednaldoluiz.moviedash.repository.projection.genre.PopularMoviesByGenreProjection;
 import com.ednaldoluiz.moviedash.service.GenreService;
 

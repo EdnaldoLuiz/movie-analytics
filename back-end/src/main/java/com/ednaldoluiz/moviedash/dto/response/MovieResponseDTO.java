@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.ednaldoluiz.moviedash.model.Movie;
-import com.ednaldoluiz.moviedash.repository.projection.MovieProjection;
+import com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public record MovieResponseDTO (

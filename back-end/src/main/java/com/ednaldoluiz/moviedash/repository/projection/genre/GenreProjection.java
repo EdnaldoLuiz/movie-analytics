@@ -1,4 +1,4 @@
-package com.ednaldoluiz.moviedash.repository.projection;
+package com.ednaldoluiz.moviedash.repository.projection.genre;
 
 public interface GenreProjection {
 

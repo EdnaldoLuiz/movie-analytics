@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ednaldoluiz.moviedash.model.Genre;
-import com.ednaldoluiz.moviedash.repository.projection.GenreProjection;
+import com.ednaldoluiz.moviedash.repository.projection.genre.GenreProjection;
 import com.ednaldoluiz.moviedash.repository.projection.genre.PopularMoviesByGenreProjection;
 
 @Repository

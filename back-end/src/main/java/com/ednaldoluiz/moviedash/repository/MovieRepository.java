@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ednaldoluiz.moviedash.model.Movie;
-import com.ednaldoluiz.moviedash.repository.projection.MovieProjection;
+import com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
 
 @Repository

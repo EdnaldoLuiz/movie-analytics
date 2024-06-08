@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.model.enums.MovieSortType;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
@@ -105,13 +104,12 @@ public class MovieController {
             @ApiResponse(responseCode = "200", description = MOVIE_SEARCH_RESPONSE_200),
             @ApiResponse(responseCode = "404", description = MOVIE_SEARCH_RESPONSE_404),
     })
-    public ResponseEntity<Page<Movie>> searchMovies(
-            @Parameter(description = "Titulo do Filme para a Pesquisa") @RequestParam String title,
-            @Parameter(description = "Número da Página") @Min(1) @RequestParam(defaultValue = PAGE_NUMBER) int page,
-            @Parameter(description = "Tamanho da Página") @Min(1) @RequestParam(defaultValue = PAGE_SIZE) int size) {
+    public ResponseEntity<Page<MovieProjection>> searchMovies(
+            @Parameter(description = "Titulo do Filme para a Pesquisa") @RequestParam String title) {
 
         log.info("Buscando por: {}", title);
-        PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by("title"));
+        PageRequest pageRequest = PageRequest.of(
+            Integer.parseInt(PAGE_NUMBER) - 1, Integer.parseInt(PAGE_SIZE), Sort.by("title"));
         return ResponseEntity.ok(service.findMoviesByTitle(title, pageRequest));
     }
 }

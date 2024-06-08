@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.repository.MovieRepository;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
@@ -64,7 +63,7 @@ public class MovieService extends AbstractService {
         return moviesCountByYear;
     }
 
-    public Page<Movie> findMoviesByTitle(String keyword, Pageable pageable) {
+    public Page<MovieProjection> findMoviesByTitle(String keyword, Pageable pageable) {
         log.info("Buscando por: {}", keyword);
         return repository.findByTitleContainingIgnoreCase(keyword, pageable);
     }

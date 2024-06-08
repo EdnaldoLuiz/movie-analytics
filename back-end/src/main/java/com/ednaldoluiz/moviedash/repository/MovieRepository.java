@@ -24,19 +24,23 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     void deleteAllByGenresIdIn(List<Long> genreIds);
 
     @Query("""
-                SELECT m.title as title, m.voteAverage as voteAverage, m.releaseDate as releaseDate
-                FROM Movie m
-                INNER JOIN m.genres g
-                WHERE g.id IN :genreIds
-            """)
+            SELECT new com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection(
+                m.title, m.voteAverage, m.releaseDate
+            )
+            FROM Movie m
+            INNER JOIN m.genres g
+            WHERE g.id IN :genreIds
+                """)
     Page<MovieProjection> findTop10ByGenreAndVoteAverage(Pageable pageable, List<Long> genreIds);
 
     @Query("""
-                SELECT m
+                SELECT new com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection(
+                    m.title, m.voteAverage, m.releaseDate
+                )
                 FROM Movie m
                 WHERE m.title LIKE %:keyword%
             """)
-    Page<Movie> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+    Page<MovieProjection> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
 
     @Query("""
                 SELECT new com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection(

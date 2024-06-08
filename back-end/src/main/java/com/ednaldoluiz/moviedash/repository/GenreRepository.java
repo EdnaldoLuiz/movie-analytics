@@ -17,8 +17,9 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
     List<GenreProjection> findMostPopularGenres();
 
     @Query("""
-            SELECT g.name as name, COUNT(m) as quantity,
-            (SELECT COUNT(m2) FROM Movie m2) as total
+            SELECT new com.ednaldoluiz.moviedash.repository.projection.genre.GenreProjection (
+                g.name as name, COUNT(m) as quantity, (SELECT COUNT(m2) FROM Movie m2) as total
+            )
             FROM Genre g
             INNER JOIN g.movies m
             WHERE g.id = :genreId

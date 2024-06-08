@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 public record GenreProjection(
         String name,
-        Integer quantity,
-        Integer total
+        Long quantity,
+        Long total
         ) implements Serializable {}

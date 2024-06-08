@@ -41,10 +41,10 @@ public class GenreController {
             @ApiResponse(responseCode = "404", description = GENRE_COUNT_RESPONSE_404),
     })
     public ResponseEntity<GenreProjection> countGenres(
-            @Parameter(description = "ID do Gênero") @RequestParam Long genreId) {
+            @Parameter(description = "Gênero") @RequestParam GenreType genre) {
 
-        log.info("Contando filmes por gênero: {}", genreId);
-        return ResponseEntity.ok(service.countByGenresId(genreId));
+        log.info("Contando filmes por gênero: {}", genre);
+        return ResponseEntity.ok(service.countByGenresId(genre.getValue()));
     }
 
     @GetMapping("/total")

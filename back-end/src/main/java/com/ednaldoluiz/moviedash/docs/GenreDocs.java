@@ -63,7 +63,7 @@ public final class GenreDocs {
             + "<h3>Parâmetros de Busca:</h3>"
             + "<hr>"
             + "<ul>"
-            + "<li><p><b>ID do Gênero</b>: ID do gênero para a consulta. </p></li>"
+            + "<li><p><b>Gênero</b>: Gênero escolhido para a consulta. </p></li>"
             + "</ul>"
             + "<h3>Observações:</h3>"
             + "<hr>"

@@ -9,11 +9,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public record MovieProjection(
         String title,
         Double voteAverage,
+        String poster,
+
         @JsonFormat(pattern = "yyyy-MM-dd") 
         LocalDate releaseDate
         ) implements Serializable {
 
     public MovieProjection(Movie movie) {
-        this(movie.getTitle(), movie.getVoteAverage(), movie.getReleaseDate());
+        this(movie.getTitle(), movie.getVoteAverage(), movie.getPoster(), movie.getReleaseDate());
     }
 }

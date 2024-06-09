@@ -25,7 +25,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Query("""
             SELECT new com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection(
-                m.title, m.voteAverage, m.releaseDate
+                m.title, m.voteAverage, m.releaseDate, m.poster
             )
             FROM Movie m
             INNER JOIN m.genres g
@@ -35,7 +35,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Query("""
                 SELECT new com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection(
-                    m.title, m.voteAverage, m.releaseDate
+                    m.title, m.voteAverage, m.releaseDate, m.poster
                 )
                 FROM Movie m
                 WHERE m.title LIKE %:keyword%
@@ -44,7 +44,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Query("""
                 SELECT new com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection(
-                    m.title, m.voteAverage, m.releaseDate
+                    m.title, m.voteAverage, m.releaseDate, m.poster
                 )
                 FROM Movie m
                 INNER JOIN m.genres g

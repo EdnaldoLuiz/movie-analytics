@@ -77,10 +77,8 @@ public class GenreController {
             @ApiResponse(responseCode = "200", description = GENRE_POPULARITY_RESPONSE_200),
             @ApiResponse(responseCode = "404", description = GENRE_POPULARITY_RESPONSE_404),
     })
-    public ResponseEntity<List<GenreProjection>> mostPopularGenres(
-            @Parameter(description = "ID do Gênero") @RequestParam Long genreId) {
-
-        log.info("Contando filmes por gênero: {}", genreId);
+    public ResponseEntity<List<GenreProjection>> mostPopularGenres() {
+        log.info("Contando filmes por gênero");
         return ResponseEntity.ok(service.getMostPopularGenres());
     }
 

@@ -9,16 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.ednaldoluiz.moviedash.cache.CacheEvictManager;
 import com.ednaldoluiz.moviedash.dto.request.MoviePageDTO;
 import com.ednaldoluiz.moviedash.dto.request.MovieRequestDTO;
 import com.ednaldoluiz.moviedash.exception.MovieProcessingException;
+import com.ednaldoluiz.moviedash.helper.CacheEvictHelper;
+import com.ednaldoluiz.moviedash.helper.TMDBUrlBuilderHelper;
 import com.ednaldoluiz.moviedash.model.Genre;
 import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.repository.GenreRepository;
 import com.ednaldoluiz.moviedash.repository.MovieRepository;
 import com.ednaldoluiz.moviedash.service.TMDBService;
-import com.ednaldoluiz.moviedash.tmdb.TMDBUrlBuilder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +30,9 @@ public class TMDBService {
 
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
-    private final TMDBUrlBuilder urlBuilder;
+    private final TMDBUrlBuilderHelper urlBuilder;
     private final RestTemplate restTemplate;
-    private final CacheEvictManager cacheEvictManager;
+    private final CacheEvictHelper cacheEvictManager;
 
     public void fetchTmdbData(Integer totalPages, List<Long> genres) {
         log.info("Gêneros: {}", genres);

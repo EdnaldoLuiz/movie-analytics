@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ednaldoluiz.moviedash.model.enums.MovieSortType;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection;
-import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
 import com.ednaldoluiz.moviedash.service.MovieService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -92,7 +92,7 @@ public class MovieController {
             @ApiResponse(responseCode = "200", description = MOVIE_YEAR_RESPONSE_200),
             @ApiResponse(responseCode = "404", description = MOVIE_YEAR_RESPONSE_404),
     })
-    public ResponseEntity<List<MoviesCountByYearProjection>> moviesByYear(
+    public ResponseEntity<Map<String, Long>> moviesByYear(
             @Parameter(description = "Ano de Lançamento") @RequestParam(required = false) Integer year) {
 
         return ResponseEntity.ok(service.findMoviesCountByYear(year));

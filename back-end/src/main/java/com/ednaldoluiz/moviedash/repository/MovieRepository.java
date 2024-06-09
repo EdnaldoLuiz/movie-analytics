@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ednaldoluiz.moviedash.model.Movie;
 import com.ednaldoluiz.moviedash.repository.projection.movie.MovieProjection;
-import com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
@@ -53,13 +52,11 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     Page<MovieProjection> findTop5ByGenreAndVoteAverageInYear(Pageable pageable, List<Long> genreIds, Integer year);
 
     @Query("""
-            SELECT new com.ednaldoluiz.moviedash.repository.projection.movie.MoviesCountByYearProjection(
-                YEAR(m.releaseDate) as year, COUNT(m.id) as movieCount
-            )
+            SELECT YEAR(m.releaseDate) as year, COUNT(m.id) as movieCount
             FROM Movie m
             WHERE (:year IS NULL OR YEAR(m.releaseDate) = :year)
             GROUP BY YEAR(m.releaseDate)
             """)
-    List<MoviesCountByYearProjection> findMoviesCountByYear(Integer year);
+    List<Object[]> findMoviesCountByYear(Integer year);
 
 }

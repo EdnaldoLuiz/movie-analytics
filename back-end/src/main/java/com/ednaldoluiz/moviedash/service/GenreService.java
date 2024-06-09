@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import static com.ednaldoluiz.moviedash.constant.CacheConstants.*;
+import static com.ednaldoluiz.moviedash.utils.APIUtils.sortByValue;
 
 import com.ednaldoluiz.moviedash.repository.GenreRepository;
 import com.ednaldoluiz.moviedash.repository.projection.genre.GenreProjection;
@@ -31,14 +32,14 @@ public class GenreService extends AbstractService {
 
     @Cacheable(cacheNames = GENRE_CACHE + "total", key = "{'total'}")
     public Map<String, Long> countTotalGenres() {
-        return convertToMap(
-                genreRepository.findGenresWithMoreThanOneMovie(), Long.class);
+        Map<String, Long> count = convertToMap(genreRepository.findGenresWithMoreThanOneMovie(), Long.class);
+        return sortByValue(count);
     }
 
     @Cacheable(cacheNames = GENRE_CACHE + "vote_average", key = "{'averageVotes'}")
     public Map<String, Double> countGenresWithHighestAverageVotes() {
-        return convertToMap(
-                genreRepository.findGenresWithHighestAverageVotes(), Double.class);
+        Map<String, Double> averageVotes = convertToMap(genreRepository.findGenresWithHighestAverageVotes(), Double.class);
+        return sortByValue(averageVotes);
     }
 
     @Cacheable(cacheNames = GENRE_CACHE + "popularity", key = "{'popularity'}")

@@ -41,7 +41,7 @@ public abstract class AbstractService {
 
     protected <T> Map<String, T> convertToMap(Collection<Object[]> list, Class<T> type) {
         return list.stream().collect(Collectors.toMap(
-                array -> (String) array[0],
+                array -> (String) array[0].toString(),
                 array -> type.cast(array[1])));
     }
 }

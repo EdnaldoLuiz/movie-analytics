@@ -10,6 +10,8 @@ public final class APIConstants {
 
     public static final String MOVIES = "movies";
     public static final String GENRES = "genres";
+    public static final String TMDB = "tmdb";
+    public static final String FILE_EXPORT = "file-export";
     
     public static final String ALL = "all";
     

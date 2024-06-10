@@ -1,4 +1,4 @@
-package com.ednaldoluiz.moviedash.tmdb;
+package com.ednaldoluiz.moviedash.helper;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Component
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public final class TMDBUrlBuilder {
+public final class TMDBUrlBuilderHelper {
 
     @Value("${tmdb.api.key}")
     private String KEY;

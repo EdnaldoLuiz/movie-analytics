@@ -35,6 +35,14 @@ public final class MovieDocs {
     public static final String MOVIE_SEARCH_RESPONSE_404 = "Nenhum filme encontrado com o título solicitado";
 
     /**
+     * ------------------------- Busca Filmes por ano -------------------------
+     */
+
+    public static final String MOVIE_YEAR_SUMMARY = "Buscar filmes por ano de lançamento";
+    public static final String MOVIE_YEAR_RESPONSE_200 = "Filmes do ano solicitado retornados com sucesso";
+    public static final String MOVIE_YEAR_RESPONSE_404 = "Nenhum filme encontrado para o ano solicitado";
+
+    /**
      * ------------------------- Controller de Filmes -------------------------
      */
 
@@ -43,7 +51,10 @@ public final class MovieDocs {
     public static final String MOVIE_CONTROLLER_DESCRIPTION = "<h3>Este controlador é responsável por realizar operações CRUD relacionadas a <b>Filmes</b></h3>"
             + "<ul>"
             + "<li>Fornece endpoints para buscar todos os filmes, os 10 melhores filmes e pesquisar filmes por título.</li>"
-            + "<li>Cada endpoint suporta paginação e ordenação.</li>"
+            + "<li>Fornece um endpoint para buscar todos os filmes com paginação.</li>"
+            + "<li>Fornece um endpoint para buscar o Top 10 de filmes.</li>"
+            + "<li>Fornece um endpoint para buscar o Top 5 de filmes por ano.</li>"
+            + "<li>Fornece um endpoint para buscar filmes por título.</li>"
             + "</ul>";
 
     public static final String MOVIE_ALL = "<h2>Este endpoint busca todos os filmes com paginação.</h2>"
@@ -89,6 +100,18 @@ public final class MovieDocs {
             + "<hr>"
             + "<ul>"
             + "<li><p>Os filmes são ordenados por média de votos em ordem decrescente.</p></li>"
+            + "</ul>";
+
+    public static final String MOVIE_YEAR = "<h2>Este endpoint busca filmes por ano de lançamento.</h2>"
+            + "<h3>Parâmetros de Busca:</h3>"
+            + "<hr>"
+            + "<ul>"
+            + "<li><p><b>Ano de Lançamento</b>: Ano de lançamento dos filmes. </p></li>"
+            + "</ul>"
+            + "<h3>Observações:</h3>"
+            + "<hr>"
+            + "<ul>"
+            + "<li><p>Se nenhum ano for fornecido, a busca não será filtrada por ano.</p></li>"
             + "</ul>";
 
     public static final String MOVIE_SEARCH = "<h2>Este endpoint busca filmes por título com paginação.</h2>"

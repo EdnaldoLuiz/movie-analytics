@@ -1,4 +1,4 @@
-package com.ednaldoluiz.moviedash.cache;
+package com.ednaldoluiz.moviedash.helper;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CacheEvictManager {
+public class CacheEvictHelper {
 
     private static final long HOURLY = 60 * 60 * 1000;
 

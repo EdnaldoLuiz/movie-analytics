@@ -1,3 +1,12 @@
+<div align="center">
+  <img src="https://img.shields.io/badge/java-v17+-orange.svg" alt="Java">
+  <img src="https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg" alt="Dependencies">
+  <img src="https://img.shields.io/badge/contributions-welcome-orange.svg" alt="Contributions">
+  <a href="https://github.com/EdnaldoLuiz/movie-analytics/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
+  </a>
+</div>
+
 ## Table of Contents
 
 - [🖥️ Server Configurations](#server-configurations)
@@ -5,6 +14,7 @@
 - [♟️ Strategy Design Pattern](#strategy-design-pattern)
 - [🔗 Relational Model](#relational-model)
 - [📚 Key Dependencies](#key-dependencies)
+- [🐳 Docker Image](#docker-image)
 - [🛠️ Tech Stack Used](#tech-stack-used)
 
 <h2 id="server-configurations">Server Configurations 🖥️</h2>
@@ -175,7 +185,7 @@ In the project, we use the Strategy design pattern to handle exporting movie dat
 The structure of the Strategy pattern in our project consists of an `ExportStrategy` interface and two concrete classes, `CSVExportStrategy` and `ExcelExportStrategy`, that implement this interface. The interface defines an `export` method that takes a filename and a list of movies to export.
 
 <div align=center>
-    <img width=500px src="https://github.com/EdnaldoLuiz/movie-analytics/assets/112354693/0773a2f8-acf0-4066-ba0b-ad631d591ae4">    
+    <img width=600px src="https://github.com/EdnaldoLuiz/movie-analytics/assets/112354693/e4bcca8a-e9fd-44bf-8ddf-8839804dc2f4">    
 </div>
 
 The concrete classes implement the `export` method specifically for each file format. `CSVExportStrategy` writes the data to a CSV file using the CSVWriter library, while `ExcelExportStrategy` creates an Excel spreadsheet using the XSSFWorkbook library.
@@ -339,6 +349,54 @@ Libraries used for documentation with Springdoc OpenAPI and visualization with S
     <artifactId>springdoc-openapi-data-rest</artifactId>
     <version>1.5.12</version>
 </dependency>
+```
+
+<h2 id="docker-image">Docker Image 🐳</h2>
+
+You can find the Docker image for this project on DockerHub. The image contains the entire application configured to run in Docker environments.
+
+<b>1. Pull the image</b>
+```bash
+docker pull ednaldoluiz/movie-analytics-api:latest
+```
+
+<b>2. Run the container</b>
+```bash
+docker run -d -p 8080:8080 ednaldoluiz/movie-analytics-api:latest
+```
+
+Image Details
+<table align=center>
+    <thead>
+        <tr>
+            <th>Repository URL</th>
+            <th>DockerHub Repository</th>
+            <th>Available Tags</th>
+            <th>Platform</th>
+        </tr>
+    </thead>
+    <tbody align=center>
+        <tr>
+            <td>https://hub.docker.com/repository/docker/ednaldoluiz/movie-analytics-api/general</td>
+            <td>ednaldoluiz/movie-analytics-api</td>
+            <td>latest, v1.0.0</td>
+            <td>Linux/AMD64</td>
+        </tr>
+    </tbody>
+</table>
+
+Environment Variables
+
+You can configure the container using environment variables. Example of Use with Environment Variables
+
+```bash
+docker run -d -p 8080:8080 \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/movie_db \
+  -e SPRING_DATASOURCE_USERNAME=postgres \
+  -e SPRING_DATASOURCE_PASSWORD=example \
+  -e REDIS_HOST=redis \
+  -e REDIS_PORT=6379 \
+  ednaldoluiz/movie-analytics-api:latest
 ```
 
 <h2 id="tech-stack-used">Tech Stack Used 🛠️</h2>

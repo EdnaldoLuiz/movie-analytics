@@ -27,7 +27,7 @@ public class SwaggerConfig {
     private static final String CONTACT_EMAIL = "contatoednaldoluiz@gmail.com";
     private static final String CONTACT_URL = "https://ednaldo-luiz.vercel.app";
     private static final String LICENSE_NAME = "Licença MIT";
-    private static final String LICENSE_URL = "https://opensource.org/licenses/MIT";
+    private static final String LICENSE_URL = "https://github.com/EdnaldoLuiz/movie-analytics/blob/main/LICENSE";
     private static final String LOCALHOST = "http://localhost:";
     private static final String API_DESCRIPTION = "<p>Esta é uma API robusta e abrangente para consulta de filmes e gêneros, baseada na base de dados do TMDB. A API oferece uma variedade de funcionalidades, permitindo aos usuários:</p>"
     + "<ul>"

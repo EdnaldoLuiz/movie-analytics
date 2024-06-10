@@ -1,3 +1,11 @@
+<div align="center">
+  <img src="https://img.shields.io/badge/java-v17+-orange.svg" alt="Java">
+  <img src="https://img.shields.io/badge/dependencias-atualizadas-brightgreen.svg" alt="Dependencias">
+  <img src="https://img.shields.io/badge/contribuições-aberto-orange.svg" alt="Contribuições">
+  <a href="https://github.com/EdnaldoLuiz/movie-analytics/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/licença-MIT-green.svg" alt="Licença">
+  </a>
+</div>
 
 ## Índice
 
@@ -5,8 +13,9 @@
 - [🌐 API Rest](#api-rest)
 - [♟️ Padrão de Projeto Strategy](#padrão-de-projeto-strategy)
 - [🔗 Modelo Relacional](#modelo-relacional)
-- [📚 Principais Dependências](#principais-dependências)
-- [🛠️ Tech Stack Utilizada](#tech-stack-utilizada)
+- [📚 Principais Dependências](#principais-bibliotecas)
+- [🐳 Imagem Docker](#docker-image)
+- [🛠️ Tech Stack Utilizada](#tech-stack)
 
 <h2 id="configurações-do-servidor">Configurações do Servidor 🖥️</h2>
 
@@ -350,6 +359,54 @@ Bibliotecas utilizadas para documentação com Springdoc OpenAPI e visualizaçã
     <artifactId>springdoc-openapi-data-rest</artifactId>
     <version>1.5.12</version>
 </dependency>
+```
+
+<h2 id="docker-image">Imagem Docker 🐳</h2>
+
+Você pode encontrar a imagem Docker para este projeto no DockerHub. A imagem contém toda a aplicação configurada para ser executada em ambientes Docker.
+
+<b>1. Pull da imagem</b>
+```bash
+docker pull ednaldoluiz/movie-analytics-api:latest
+```
+
+<b>2. Executar o container</b>
+```bash
+docker run -d -p 8080:8080 ednaldoluiz/movie-analytics-api:latest
+```
+
+Detalhes da Imagem
+<table align=center>
+    <thead>
+        <tr>
+            <th>URL do Repositório</th>
+            <th>Repositório DockerHub</th>
+            <th>Tags Disponíveis</th>
+            <th>Plataforma</th>
+        </tr>
+    </thead>
+    <tbody align=center>
+        <tr>
+            <td>https://hub.docker.com/repository/docker/ednaldoluiz/movie-analytics-api/general</td>
+            <td>ednaldoluiz/movie-analytics-api</td>
+            <td>latest, v1.0.0</td>
+            <td>Linux/AMD64</td>
+        </tr>
+    </tbody>
+</table>
+
+Variáveis de Ambiente
+
+Você pode configurar o container utilizando variáveis de ambiente. Exemplo de Uso com Variáveis de Ambiente
+
+```bash
+docker run -d -p 8080:8080 \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/movie_db \
+  -e SPRING_DATASOURCE_USERNAME=postgres \
+  -e SPRING_DATASOURCE_PASSWORD=example \
+  -e REDIS_HOST=redis \
+  -e REDIS_PORT=6379 \
+  ednaldoluiz/movie-analytics-api:latest
 ```
 
 <h2 id="tech-stack">Tech Stack Utilizada 🛠️</h2>

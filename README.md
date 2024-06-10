@@ -197,7 +197,7 @@ No projeto utilizamos o padrão de projeto Strategy para lidar com a exportaçã
 A estrutura do padrão Strategy em nosso projeto é composta por uma interface ExportStrategy e duas classes concretas CSVExportStrategy e ExcelExportStrategy que implementam essa interface. A interface define um método export que recebe um nome de arquivo e uma lista de filmes para exportar.
 
 <div align=center>
-    <img width=700px src="https://github.com/EdnaldoLuiz/movie-analytics/assets/112354693/e4bcca8a-e9fd-44bf-8ddf-8839804dc2f4">    
+    <img width=600px src="https://github.com/EdnaldoLuiz/movie-analytics/assets/112354693/e4bcca8a-e9fd-44bf-8ddf-8839804dc2f4">    
 </div>
 
 As classes concretas implementam o método export de maneira específica para cada formato de arquivo. CSVExportStrategy escreve os dados em um arquivo CSV usando a biblioteca CSVWriter, enquanto ExcelExportStrategy cria uma planilha Excel usando a biblioteca XSSFWorkbook.

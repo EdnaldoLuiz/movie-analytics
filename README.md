@@ -367,12 +367,12 @@ Você pode encontrar a imagem Docker para este projeto no DockerHub. A imagem co
 
 <b>1. Pull da imagem</b>
 ```bash
-docker pull ednaldoluiz/movie-analytics-api:latest
+docker pull ednaldoluiz/movie-analytics-api:1.0.0
 ```
 
 <b>2. Executar o container</b>
 ```bash
-docker run -d -p 8080:8080 ednaldoluiz/movie-analytics-api:latest
+docker run -d -p 8080:8080 ednaldoluiz/movie-analytics-api:1.0.0
 ```
 
 Detalhes da Imagem
@@ -389,7 +389,7 @@ Detalhes da Imagem
         <tr>
             <td>https://hub.docker.com/repository/docker/ednaldoluiz/movie-analytics-api/general</td>
             <td>ednaldoluiz/movie-analytics-api</td>
-            <td>latest, v1.0.0</td>
+            <td>v1.0.0</td>
             <td>Linux/AMD64</td>
         </tr>
     </tbody>

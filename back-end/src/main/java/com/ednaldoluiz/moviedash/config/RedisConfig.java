@@ -13,6 +13,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.ednaldoluiz.moviedash.constant.CacheConstants;
+import com.ednaldoluiz.moviedash.constant.BeanConstants;
 
 import java.time.Duration;
 
@@ -35,7 +36,7 @@ public class RedisConfig {
      * @return o gerenciador de cache Redis
      */
 
-    @Bean
+    @Bean(BeanConstants.REDIS_CACHE_MANAGER)
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory,
             RedisCacheManagerBuilderCustomizer customizer) {
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(redisConnectionFactory)
@@ -55,7 +56,7 @@ public class RedisConfig {
      * @return a configuração de cache
      */
 
-    @Bean
+    @Bean(BeanConstants.REDIS_CACHE_CONFIGURATION)
     public RedisCacheConfiguration cacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofHours(10))
@@ -76,14 +77,14 @@ public class RedisConfig {
      * @return o personalizador
      */
 
-    @Bean
+    @Bean(BeanConstants.REDIS_CACHE_MANAGER_BUILDER_CUSTOMIZER)
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder) -> builder
-                .withCacheConfiguration(CacheConstants.MOVIE_CACHE,
+                .withCacheConfiguration(CacheConstants.MOVIE,
                         RedisCacheConfiguration.defaultCacheConfig()
                                 .disableCachingNullValues()
                                 .entryTtl(Duration.ofHours(1)))
-                .withCacheConfiguration(CacheConstants.GENRE_CACHE,
+                .withCacheConfiguration(CacheConstants.GENRE,
                         RedisCacheConfiguration.defaultCacheConfig()
                                 .disableCachingNullValues()
                                 .entryTtl(Duration.ofMinutes(40)));
@@ -103,7 +104,7 @@ public class RedisConfig {
      * @return o modelo Redis
      */
 
-    @Bean(name = "redisTemplate")
+    @Bean(BeanConstants.REDIS_TEMPLATE)
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory cf) {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setDefaultSerializer(new StringRedisSerializer());

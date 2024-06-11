@@ -6,6 +6,8 @@ import java.util.TreeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.ednaldoluiz.moviedash.constant.BeanConstants;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -46,7 +48,7 @@ public class SwaggerConfig {
         SERVERS.put(LOCALHOST + 8082, "Servidor Produção");
     }
 
-    @Bean
+    @Bean(BeanConstants.OPEN_API)
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(getComponents())

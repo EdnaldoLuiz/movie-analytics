@@ -1,6 +1,6 @@
 package com.ednaldoluiz.moviedash.service;
 
-import static com.ednaldoluiz.moviedash.constant.CacheConstants.MOVIE_CACHE;
+import static com.ednaldoluiz.moviedash.constant.CacheConstants.Movie.*;
 import static com.ednaldoluiz.moviedash.utils.APIUtils.sortByValue;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class MovieService extends AbstractService {
     private final MovieRepository repository;
 
     @Cacheable(
-        cacheNames = MOVIE_CACHE + "all", 
+        cacheNames = MOVIE_CACHE_ALL, 
         key = "{#pageable.pageNumber,#pageable.pageSize,#pageable.sort}", 
         unless = "#result.numberOfElements < 5")
     public Page<MovieProjection> findAllMovies(Pageable pageable) {
@@ -35,7 +35,7 @@ public class MovieService extends AbstractService {
     }
 
     @Cacheable(
-        cacheNames = MOVIE_CACHE + "top10", 
+        cacheNames = MOVIE_CACHE_TOP10, 
         key = "{#pageable.pageNumber,#pageable.pageSize,#pageable.sort,#genreIds}", 
         unless = "#result.numberOfElements < 5")
     public Page<MovieProjection> findTop10Movies(Pageable pageable, List<Long> genreIds) {
@@ -44,7 +44,7 @@ public class MovieService extends AbstractService {
     }
 
     @Cacheable(
-        cacheNames = MOVIE_CACHE + "top5", 
+        cacheNames = MOVIE_CACHE_TOP5, 
         key = "{#genreIds, #year}", 
         unless = "#result.numberOfElements < 5")
     public Page<MovieProjection> findTop5MoviesByYear(Pageable pageable, List<Long> genreIds, Integer year) {
@@ -53,7 +53,7 @@ public class MovieService extends AbstractService {
     }
 
     @Cacheable(
-        cacheNames = MOVIE_CACHE + "year", 
+        cacheNames = MOVIE_CACHE_YEAR, 
         key = "{#year}", 
         unless = "#result.size() < 5")
     public Map<String, Long> findMoviesCountByYear(Integer year) {

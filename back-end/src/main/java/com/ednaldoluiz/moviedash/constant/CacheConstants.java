@@ -1,13 +1,24 @@
 package com.ednaldoluiz.moviedash.constant;
 
-public final class CacheConstants {
+public interface CacheConstants {
 
-    private static final String SEPARATOR = "_";
-    private static final String CACHE = "cache";
+    String SEPARATOR = "_";
+    String CACHE = "cache";
+    String MOVIE = "movie";
+    String GENRE = "genre";
 
-    private static final String MOVIE = "movie";
-    private static final String GENRE = "genre";
+    interface Movie {
+        String MOVIE_CACHE_ALL = MOVIE + SEPARATOR + CACHE + SEPARATOR + "all";
+        String MOVIE_CACHE_TOP10 = MOVIE + SEPARATOR + CACHE + SEPARATOR + "top10";
+        String MOVIE_CACHE_TOP5 = MOVIE + SEPARATOR + CACHE + SEPARATOR + "top5";
+        String MOVIE_CACHE_YEAR = MOVIE + SEPARATOR + CACHE + SEPARATOR + "year";
+    }
 
-    public static final String MOVIE_CACHE = MOVIE+SEPARATOR+CACHE+SEPARATOR;
-    public static final String GENRE_CACHE = GENRE+SEPARATOR+CACHE+SEPARATOR;
+    interface Genre {
+        String GENRE_CACHE_COUNT = GENRE + SEPARATOR + CACHE + SEPARATOR + "count";
+        String GENRE_CACHE_TOTAL = GENRE + SEPARATOR + CACHE + SEPARATOR + "total";
+        String GENRE_CACHE_VOTE_AVERAGE = GENRE + SEPARATOR + CACHE + SEPARATOR + "vote_average";
+        String GENRE_CACHE_POPULARITY = GENRE + SEPARATOR + CACHE + SEPARATOR + "popularity";
+        String GENRE_CACHE_POPULAR_MOVIES = GENRE + SEPARATOR + CACHE + SEPARATOR + "popular_movies";
+    }
 }

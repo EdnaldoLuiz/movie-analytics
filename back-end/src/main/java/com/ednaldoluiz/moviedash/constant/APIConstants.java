@@ -1,18 +1,38 @@
 package com.ednaldoluiz.moviedash.constant;
 
-public final class APIConstants {
+public interface APIConstants {
 
-    private static final String SUFFIX = "/";
-    private static final String API = "api";
-    private static final String V1 = "v1";
+    String SUFFIX = "/";
+    String API = "api";
+    String V1 = "v1";
+    String API_V1 = SUFFIX + API + SUFFIX + V1 + SUFFIX;
 
-    public static final String API_V1 = SUFFIX + API + SUFFIX + V1 + SUFFIX;
+    interface Movie {
+        String MOVIES = "movies";
+        String ALL = "all";
+        String TOP10 = "top10";
+        String TOP5 = "top5";
+        String YEAR = "year";
+        String SEARCH = "search";
+    }
 
-    public static final String MOVIES = "movies";
-    public static final String GENRES = "genres";
-    public static final String TMDB = "tmdb";
-    public static final String FILE_EXPORT = "file-export";
-    
-    public static final String ALL = "all";
-    
+    interface Genre {
+        String GENRES = "genres";
+        String COUNT = "count";
+        String TOTAL = "total";
+        String VOTE_AVERAGE = "vote-average";
+        String POPULAR_GENRES = "popular-genres";
+        String POPULAR_MOVIES = "popular-movies";
+    }
+
+    interface Tmdb {
+        String TMDB = "tmdb";
+        String FETCH = "fetch";
+        String DELETE = "delete";
+    }
+
+    interface FileExport {
+        String FILE_EXPORT = "file-export";
+        String EXPORT = "export";
+    }
 }

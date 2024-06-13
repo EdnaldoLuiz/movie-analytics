@@ -27,14 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(API_V1 + GENRES)
+@RequestMapping(API_V1 + Genre.GENRES)
 @RequiredArgsConstructor
 @Tag(name = GENRE_CONTROLLER_NAME, description = GENRE_CONTROLLER_DESCRIPTION)
 public class GenreController {
 
     private final GenreService service;
 
-    @GetMapping("/count")
+    @GetMapping(Genre.COUNT)
     @Operation(summary = GENRE_COUNT_SUMMARY, description = GENRE_COUNT_DESCRIPTION)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = GENRE_COUNT_RESPONSE_200),
@@ -47,7 +47,7 @@ public class GenreController {
         return ResponseEntity.ok(service.countByGenresId(genre.getValue()));
     }
 
-    @GetMapping("/total")
+    @GetMapping(Genre.TOTAL)
     @Operation(summary = GENRE_TOTAL_SUMMARY, description = GENRE_TOTAL_DESCRIPTION)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = GENRE_TOTAL_RESPONSE_200),
@@ -59,7 +59,7 @@ public class GenreController {
         return ResponseEntity.ok(service.countTotalGenres());
     }
 
-    @GetMapping("/vote-average")
+    @GetMapping(Genre.VOTE_AVERAGE)
     @Operation(summary = GENRE_VOTE_AVERAGE_SUMMARY, description = GENRE_VOTE_AVERAGE_DESCRIPTION)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = GENRE_VOTE_AVERAGE_RESPONSE_200),
@@ -71,7 +71,7 @@ public class GenreController {
         return ResponseEntity.ok(service.countGenresWithHighestAverageVotes());
     }
 
-    @GetMapping("/popular-genres")
+    @GetMapping(Genre.POPULAR_GENRES)
     @Operation(summary = GENRE_POPULARITY_SUMMARY, description = GENRE_POPULARITY_DESCRIPTION)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = GENRE_POPULARITY_RESPONSE_200),
@@ -82,7 +82,7 @@ public class GenreController {
         return ResponseEntity.ok(service.getMostPopularGenres());
     }
 
-    @GetMapping("/popular-movies")
+    @GetMapping(Genre.POPULAR_MOVIES)
     @Operation(summary = GENRE_POPULAR_MOVIES_SUMMARY, description = GENRE_POPULAR_MOVIES_DESCRIPTION)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = GENRE_POPULAR_MOVIES_RESPONSE_200),

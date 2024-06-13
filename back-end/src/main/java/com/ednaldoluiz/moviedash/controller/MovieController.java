@@ -34,14 +34,14 @@ import static com.ednaldoluiz.moviedash.docs.MovieDocs.*;
 
 @Slf4j
 @RestController
-@RequestMapping(API_V1 + MOVIES)
+@RequestMapping(API_V1 + Movie.MOVIES)
 @RequiredArgsConstructor
 @Tag(name = MOVIE_CONTROLLER_NAME, description = MOVIE_CONTROLLER_DESCRIPTION)
 public class MovieController {
 
     private final MovieService service;
 
-    @GetMapping(ALL)
+    @GetMapping(Movie.ALL)
     @Operation(summary = MOVIE_ALL_SUMMARY, description = MOVIE_ALL)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = MOVIE_ALL_RESPONSE_200),
@@ -57,7 +57,7 @@ public class MovieController {
         return ResponseEntity.ok(service.findAllMovies(pageable));
     }
 
-    @GetMapping("/top10")
+    @GetMapping(Movie.TOP10)
     @Operation(summary = MOVIE_TOP10_SUMMARY, description = MOVIE_TOP_10)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = MOVIE_TOP10_RESPONSE_200),
@@ -71,7 +71,7 @@ public class MovieController {
         return ResponseEntity.ok(service.findTop10Movies(pageable, genreIds));
     }
 
-    @GetMapping("/top5")
+    @GetMapping(Movie.TOP5)
     @Operation(summary = MOVIE_TOP5_SUMMARY, description = MOVIE_TOP_5)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = MOVIE_TOP5_RESPONSE_200),
@@ -86,7 +86,7 @@ public class MovieController {
         return ResponseEntity.ok(service.findTop5MoviesByYear(pageable, genreIds, year));
     }
 
-    @GetMapping("/year")
+    @GetMapping(Movie.YEAR)
     @Operation(summary = MOVIE_YEAR_SUMMARY, description = MOVIE_YEAR)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = MOVIE_YEAR_RESPONSE_200),
@@ -98,7 +98,7 @@ public class MovieController {
         return ResponseEntity.ok(service.findMoviesCountByYear(year));
     }
 
-    @GetMapping("/search")
+    @GetMapping(Movie.SEARCH)
     @Operation(summary = MOVIE_SEARCH_SUMMARY, description = MOVIE_SEARCH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = MOVIE_SEARCH_RESPONSE_200),

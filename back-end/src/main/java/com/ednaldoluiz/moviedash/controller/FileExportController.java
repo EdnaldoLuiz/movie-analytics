@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ednaldoluiz.moviedash.constant.APIConstants.FileExport;
 import com.ednaldoluiz.moviedash.model.enums.FileExportType;
 import com.ednaldoluiz.moviedash.service.FileExportService;
 
@@ -31,14 +32,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(API_V1 + FILE_EXPORT)
+@RequestMapping(API_V1 + FileExport.FILE_EXPORT)
 @RequiredArgsConstructor
 @Tag(name = FILE_EXPORT_CONTROLLER_NAME, description = FILE_EXPORT_CONTROLLER_DESCRIPTION)
 public class FileExportController {
 
     private final FileExportService service;
 
-    @GetMapping("/export")
+    @GetMapping(FileExport.EXPORT)
     @Operation(summary = FILE_EXPORT_SUMMARY, description = FILE_EXPORT_DESCRIPTION)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = FILE_EXPORT_RESPONSE_200),

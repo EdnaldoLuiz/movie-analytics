@@ -7,7 +7,11 @@ target/
 ### Docker ###
 /data
 .env
-a.txt
+*.txt
+*.log
+*.out
+*.csv
+*.xlsx
 
 ### STS ###
 .apt_generated

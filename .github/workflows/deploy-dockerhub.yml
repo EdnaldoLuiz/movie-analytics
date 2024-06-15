@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -33,12 +32,20 @@ jobs:
 
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF:10}
+      run: |
+        if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+          VERSION="${GITHUB_REF#refs/tags/}"
+        elif [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+          VERSION="${GITHUB_REF#refs/heads/}"
+        else
+          VERSION="latest"
+        fi
+        echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-api:${{ steps.get_version.outputs.VERSION }}
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-api:${{ env.VERSION }}
       working-directory: back-end
 
     - name: Push the Docker image
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-api:${{ steps.get_version.outputs.VERSION }}
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-api:${{ env.VERSION }}
       working-directory: back-end

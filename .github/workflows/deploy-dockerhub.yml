@@ -33,7 +33,13 @@ jobs:
 
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+        VERSION=${GITHUB_REF#refs/tags/}
+        else
+        VERSION=${GITHUB_REF#refs/heads/}
+        fi
+        echo ::set-output name=VERSION::$VERSION
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-api:${{ steps.get_version.outputs.VERSION }}

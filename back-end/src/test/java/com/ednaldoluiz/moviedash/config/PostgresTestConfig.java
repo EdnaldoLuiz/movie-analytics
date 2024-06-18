@@ -10,15 +10,18 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.ednaldoluiz.moviedash.constants.TestConstants.Postgres;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Duration;
 
 import org.testcontainers.containers.wait.strategy.HostPortWaitStrategy;
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 
+@Slf4j
 @Testcontainers
 @TestConfiguration
 @SuppressWarnings("resource")
-public class PostgresDatabaseTestConfig {
+public class PostgresTestConfig {
 
     @Container
     private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>(Postgres.VERSION)
@@ -35,6 +38,7 @@ public class PostgresDatabaseTestConfig {
 
     static {
         postgreSQLContainer.start();
+        log.info("Started PostgreSQL container with version: " + postgreSQLContainer.getDockerImageName());
     }
 
     @DynamicPropertySource

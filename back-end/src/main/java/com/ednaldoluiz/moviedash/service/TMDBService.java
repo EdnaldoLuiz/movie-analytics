@@ -56,6 +56,7 @@ public class TMDBService {
         if (genreIds == null || genreIds.isEmpty()) {
             log.info("Deletando todos os filmes");
             movieRepository.deleteAll();
+            return;
         }
         log.info("Deletando todos os filmes por gênero: {}", genreIds);
         movieRepository.deleteAllByGenresIdIn(genreIds);

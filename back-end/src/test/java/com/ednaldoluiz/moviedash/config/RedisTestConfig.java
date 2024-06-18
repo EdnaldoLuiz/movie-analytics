@@ -1,6 +1,7 @@
 package com.ednaldoluiz.moviedash.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -14,6 +15,7 @@ import com.ednaldoluiz.moviedash.constants.TestConstants.Redis;
 
 import java.time.Duration;
 
+@EnableCaching
 @Testcontainers
 @TestConfiguration
 @SuppressWarnings("resource")
@@ -25,7 +27,8 @@ public class RedisCacheTestConfig {
             .withExposedPorts(Redis.PORT)
             .withCommand("redis-server --requirepass " + Redis.PASSWORD)
             .waitingFor(Wait.forLogMessage(".*Ready to accept connections.*\\s", 1))
-            .withStartupTimeout(Duration.ofMinutes(2));
+            .withStartupTimeout(Duration.ofMinutes(2))
+            .withReuse(false);
 
     static {
         redisContainer.start();

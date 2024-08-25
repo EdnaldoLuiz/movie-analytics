@@ -25,6 +25,16 @@ jobs:
     - name: List directory structure
       run: ls -R back-end
 
+    - name: Generate dump.sql
+      run: |
+        chmod +x ./back-end/docker/dump.sh
+        ./back-end/docker/dump.sh
+      working-directory: back-end/docker
+      env:
+        DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+
     - name: Build and Push Docker Image as latest
       working-directory: back-end/docker
       run: |

@@ -26,14 +26,14 @@ jobs:
       run: ls -R back-end
 
     - name: Generate dump.sql
+      working-directory: ./back-end/docker
       run: |
-        chmod +x back-end/docker/dump.sh
-        back-end/docker/dump.sh
-      working-directory: back-end/docker
+        chmod +x dump.sh
+        ./dump.sh
       env:
-        DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-        DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+        DATABASE_USERNAME: postgres
+        DATABASE_PASSWORD: postgres
+        DATABASE_NAME: postgres
 
     - name: Build and Push Docker Image as latest
       working-directory: back-end/docker

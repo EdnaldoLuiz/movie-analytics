@@ -35,6 +35,10 @@ jobs:
         DATABASE_PASSWORD: postgres
         DATABASE_NAME: postgres
 
+    - name: List files in docker directory after dump
+      working-directory: ./back-end/docker
+      run: ls -la
+
     - name: Build and Push Docker Image as latest
       working-directory: back-end/docker
       run: |

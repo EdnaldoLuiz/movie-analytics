@@ -35,6 +35,7 @@ jobs:
         DATABASE_PASSWORD: postgres
         DATABASE_NAME: postgres
 
+        
     - name: List files in docker directory after dump
       working-directory: ./back-end/docker
       run: ls -la

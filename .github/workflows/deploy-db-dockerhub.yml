@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'
 
 jobs:
   build-and-push-db:
@@ -21,30 +19,8 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Get the version for branch push
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/')
-      id: get_version_branch
-      run: |
-        VERSION=$(date +%Y-%m-%d) # Uses the current date as the version
-        echo "VERSION=${VERSION}" >> $GITHUB_ENV
-
-    - name: Get the version for tag push
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-      id: get_version_tag
-      run: |
-        VERSION=${GITHUB_REF#refs/tags/}
-        echo "VERSION=${VERSION}" >> $GITHUB_ENV
-
-    - name: Build and Push Docker Image
+    - name: Build and Push Docker Image as latest
       run: |
         cd docker  # Assume que seus scripts Docker estão na pasta docker
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:${{ env.VERSION }} -f Dockerfile.db .
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:${{ env.VERSION }}
-
-    - name: Tag the Docker image as latest
-      run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:${{ env.VERSION }} ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:latest
-      working-directory: docker
-
-    - name: Push the Docker image with latest tag
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:latest
-      working-directory: docker
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:latest -f Dockerfile.db .
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:latest

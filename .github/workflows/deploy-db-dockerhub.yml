@@ -20,7 +20,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build and Push Docker Image as latest
-      working-directory: ./back-end/docker
+      working-directory: back-end/docker
       run: |
         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:latest -f Dockerfile.db .
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/movie-analytics-db:latest

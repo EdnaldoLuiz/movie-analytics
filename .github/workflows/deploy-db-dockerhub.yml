@@ -27,8 +27,8 @@ jobs:
 
     - name: Generate dump.sql
       run: |
-        chmod +x ./back-end/docker/dump.sh
-        ./back-end/docker/dump.sh
+        chmod +x back-end/docker/dump.sh
+        back-end/docker/dump.sh
       working-directory: back-end/docker
       env:
         DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}

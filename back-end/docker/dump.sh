@@ -1,2 +1,2 @@
 #!/bin/bash
-mysqldump -u ${DATABASE_USERNAME} -p${DATABASE_PASSWORD} -h localhost ${DATABASE_NAME} > dump.sql
+PGPASSWORD=${DATABASE_PASSWORD} pg_dump -U ${DATABASE_USERNAME} -h localhost -d ${DATABASE_NAME} > dump.sql
